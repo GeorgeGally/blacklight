@@ -1,0 +1,235 @@
+body {
+  background: #f7f7f7;
+  font-family: Helvetica, arial, serif;
+  color: #000000;
+  font-size: 40px;
+  margin: 0;
+  padding: 0;
+  overflow:hidden;
+}
+
+* { font-family: 'Roboto', sans-serif; line-height:1.2;  }
+		h1 { font-size:2rem; font-weight:200;}
+		h2 { font-size:1.2rem; font-weight:200; margin-top: 20px;}
+		h3 { font-size:.9rem; line-height:1.2; color:gray; font-weight:400; }
+
+
+p {
+  font-size: 30px;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.card{padding:1.5rem; box-shadow:0 1px 2px #aaa; background:white; margin:0 1rem 1rem; border-radius:3px;}
+
+
+input {
+    border: 1px solid white;
+    -webkit-box-shadow:
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1);
+    -moz-box-shadow:
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1);
+    box-shadow:
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1);
+    padding: 15px;
+    background: rgba(255,255,255,0.5);
+    margin: 0 0 10px 0;
+}
+
+
+
+/* Style the list */
+ul.tab {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Float the list items side by side */
+ul.tab li {float: left;}
+
+/* Style the links inside the list items */
+ul.tab li a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of links on hover */
+ul.tab li a:hover {background-color: #ddd;}
+
+/* Create an active/current tablink class */
+ul.tab li a:focus, .active {background-color: #ccc;}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+
+.red {
+  background: rgba(255,0,0,0.4);
+}
+
+.green {
+  background: rgba(0,255,0,0.4);
+}
+
+.blue {
+  background: rgba(0,0,255,0.4);
+}
+
+.purple {
+  background: rgba(155,0,100,0.4);
+}
+
+.black {
+  background: #000;
+}
+
+.overlay {
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  -webkit-transition: 0.25s opacity;
+  bottom: 0;
+  display: -webkit-box;
+  left: 0;
+  padding: 0px;
+  padding-bottom: 0px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 910;
+  background: #000;
+}
+
+.none {
+  display: none;
+}
+
+canvas {
+  border: none;
+  margin: 0;
+   }
+
+@-webkit-keyframes sepia-anim {
+  from { -webkit-filter: sepia(0); }
+  to   { -webkit-filter: sepia(1); }
+}
+@-webkit-keyframes grayscale-anim {
+  from { -webkit-filter: grayscale(0); }
+  to   { -webkit-filter: grayscale(1); }
+}
+@-webkit-keyframes blur-anim {
+  from { -webkit-filter: blur(0); }
+  to   { -webkit-filter: blur(10px); }
+}
+@-webkit-keyframes spin {
+  from { -webkit-transform: rotateZ(0deg); transform: rotateZ(0deg); }
+  to   { -webkit-transform: rotateZ(360deg); transform: rotateZ(360deg); }
+}
+
+
+.sepia {
+  -webkit-animation: sepia-anim 2s ease-in-out;
+  -webkit-animation-direction: alternate;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation: sepia-anim 2s ease-in-out;
+  -moz-animation-direction: alternate;
+  -moz-animation-iteration-count: infinite;
+}
+
+
+.grayscale {
+  -webkit-animation: grayscale-anim 2s ease-in-out;
+  -webkit-animation-direction: alternate;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation: grayscale-anim 2s ease-in-out;
+  -moz-animation-direction: alternate;
+  -moz-animation-iteration-count: infinite;
+}
+
+.blur {
+  -webkit-animation: blur-anim 0.5s linear;
+  -webkit-animation-direction: alternate;
+  -webkit-animation-iteration-count: infinite;
+}
+
+.spin {
+  -webkit-animation: spin 10s linear;
+  -webkit-animation-iteration-count: infinite;
+}
+
+
+
+.canvas_holder {
+  width: 100%;
+}
+
+
+.button {
+  background: #29A9E1;
+  border-radius: 4px;
+  width: 120px;
+  height: 28px;
+  padding: 5px 6px 8px 6px;
+  color: #FFF;
+  text-decoration: none;
+  font-size: 14px;
+  display: inline-block;
+  opacity: 0.8;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+}
+
+
+a {color: #F000D4 !important;}
+
+.content-width {
+padding: 4%;
+}
+
+.clear{clear:both;}
+
+
+@media (max-width : 800px) {
+body {
+  font-size: 200%;
+}
+}
+
+
+
+@media (min-width : 621px) and (max-width : 884px) {
+.card {
+  height: 100%;
+  background: red;
+}
+}
+
+@media (min-width : 621px) and (max-width : 885px) {
+  body {
+    font-size: 200%;
+  }
+}
+
+  @media (min-width : 885px) {
+
+}

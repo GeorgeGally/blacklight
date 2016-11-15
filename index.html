@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html>
+
+
+<head>
+  <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="css/gradients.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="css/nl.css" type="text/css" media="screen" />
+    <script src="js/jquery-1.10.1.min.js"></script>
+</head>
+<body>
+  
+<ul class="tab">
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'Data')">Data</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'Colour')">Adjust Colours</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'Brightness')">Adjust Brightness</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'Settings')">Settings</a></li>
+</ul>
+
+
+<div id="Data" class="tabcontent">
+  <div class="card">
+
+    <h3>Current City</h3>
+    <p id="city_value"></p>
+
+</div>
+
+
+  <div class="card">
+
+    <h3>PM2.5</h3>
+    <p id="pollution_value">Loading...</p>
+
+  </div>
+
+  <div class="card">
+
+    <h3>Temperature</h3>
+    <p id="temp_value">Loading...</p>
+
+  </div>
+
+  <div class="card">
+
+    <h3>Time</h3>
+    <p id="temp_value">Loading...</p>
+
+  </div>
+
+
+</div>
+
+<div id="Colour" class="tabcontent">
+
+  <div class="card">
+    <h3>Adjust Colours</h3>
+    <p>
+      Choose your colour scheme
+    </p>
+
+      <div class="gradient_box gradient1"></div>
+      <div class="stop-marker stop-marker-0" title="Color stop" color="#2989D8" position="50" imarker="0" style="left: 195px;"><div class="color" style="background: rgb(41, 137, 216);"></div></div>
+      <div class="gradient_box gradient2"></div>
+      <div class="gradient_box gradient3"></div>
+      <div class="gradient_box gradient4"></div>
+      <div class="gradient_box gradient5"></div>
+      <div class="gradient_box gradient6"></div>
+    </div>
+
+  <div class="colour_adjust">
+    <canvas nx="slider"  min="0" max="255" label="Red"></canvas>
+    <canvas nx="slider"  min="0" max="255" label="Green"></canvas>
+    <canvas nx="slider"  min="0" max="255" label="Blue"></canvas>
+  </div>
+</div>
+
+<div id="Brightness" class="tabcontent">
+  <h3>Brightness</h3>
+  <div class="brightness_adjust">
+    <canvas nx="dial"  min="0" max="100" label="Brightness" height="200" width="200"></canvas>
+  </div>
+</div>
+
+<div id="Settings" class="tabcontent">
+  <h3>Settings</h3>
+  <div class="brightness_adjust">
+    <canvas nx="dial"  min="0" max="100" label="Brightness" height="250" width="200"></canvas>
+  </div>
+</div>
+
+<script>
+
+var city = 'Shanghai';
+//var weather_api = 'b96feadcd071e60fdfeb';
+var weather_api = '6fb8c037edc949db233cbebd83e9641d';
+var weather_api_url = 'http://api.openweathermap.org/data/2.5/weather?q=';
+var weather_url = weather_api_url + city + '&units=metric&appid=' + weather_api;
+  var api_url = 'https://api.openaq.org/v1/latest?city=';
+  //var token = "33d98a6a9a7ebce573152032d146d00cb14e19b0";
+  var token = 'ZBvYXlkHc4IC1vGoTkRfPIyzYl0utxYN';
+
+function openCity(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the link that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+
+function loadJSON(file, callback) {
+
+    var xobj = new XMLHttpRequest();
+    xobj.overrideMimeType("application/json");
+    xobj.open('GET', file, true); // Replace 'my_data' with the path to your file
+    xobj.onreadystatechange = function () {
+          if (xobj.readyState == 4 && xobj.status == "200") {
+            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            callback(xobj.responseText);
+          }
+    };
+    xobj.send(null);
+ }
+
+
+
+
+
+ // function init() {
+ //  loadJSON(function(response) {
+ //   // Parse JSON string into object
+ //     var actual_JSON = JSON.parse(response);
+ //  });
+ // }
+
+
+function load(url, response) {
+
+    loadJSON(url, response);
+  }
+
+load(api_url+city, air_response);
+load(weather_url, weather_response);
+
+function air_response(response){
+  var output = JSON.parse(response);
+  console.log(output);
+  console.log(output.results[0].measurements[0].value);
+  document.getElementById('pollution_value').innerHTML = output.results[0].measurements[0].value;
+  var pollution = output.results[0].measurements[0].value;
+  var pollution_percentage = Math.round(pollution/200*100);
+  console.log("pollution_percentage:" + pollution_percentage);
+  document.getElementById('city_value').innerHTML = city;
+}
+
+function weather_response(response){
+  var output = JSON.parse(response);
+  console.log(output);
+  console.log(output.main.temp);
+  var temp = output.main.temp;
+  var temp_percentage = Math.round(temp/32*100);
+  console.log("temp_percentage: " + temp_percentage);
+  // document.getElementById('pollution_value').innerHTML = output.results[0].measurements[0].value;
+  // document.getElementById('city_value').innerHTML = city;
+}
+
+</script>
+</body>
+</html>

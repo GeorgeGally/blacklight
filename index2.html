@@ -1,0 +1,847 @@
+<!-- HTTP_HEAD -->
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta name=\'viewport\' content=\'width=device-width, initial-scale=1, user-scalable=no\'/>
+		<title>Blacklight</title>
+		<!-- <script language='javascript' src='js/creative.js'></script> -->
+		<script language='javascript' src='js/canvas.js'></script>
+
+<style>
+
+	* { font-family: 'Roboto', sans-serif; line-height:1.2; }
+	body{ background: #eee; text-align: center;}
+	h1 { font-size:2rem; font-weight:200;}
+	h2 { font-size:1.4rem; font-weight:200; margin-top: 20px;}
+	h3 { font-size:.9rem; line-height:1.2; color: #888; font-weight:400; }
+	.add-top { margin-top: 50px !important;}
+	.add-bottom { margin-bottom: 50px !important;}
+	.half-top { margin-top: 25px !important;}
+	.half-bottom { margin-bottom: 25px !important;}
+	.temp { font-size: 8rem; font-weight: 200; color: #ccc; }
+	a, a:visited, strong { font-weight:300; color:#539D00; }
+	.hidden { display: none; }
+	.underline_link {
+		text-decoration: underline;
+		cursor: pointer;
+	}
+	.c { text-align: center;}
+	.main {
+		position: relative;
+		text-align: center;
+		background:whitesmoke;
+		margin:2.5rem -1.5rem 0 -1.5rem;
+		padding-top: 2.5rem;
+	}
+	a:active { outline: none;}
+	*:focus {outline: none;}
+	div,input{ padding:5px;font-size:1em; }
+	input{ width:95%; }
+	button{
+		border:0;
+		border-radius:0.2rem;
+		background:#39c;
+		color:#fff;
+		line-height:2.4rem;
+		font-size:1.2rem;
+		width:80%;
+		margin: 0 auto 0 auto;
+	}
+	button:active{ background-color:#e2674a; }
+	.colour_box {
+			width: 25px;
+			height: 28px;
+			display: inline-block;
+			margin: 0;
+			padding: 1px 3px 0px 3px;
+			border-radius: 0px;
+			vertical-align: super;
+	}
+	.gradient_box {
+		height: 20px;
+		width: 75%;
+		margin: 0 auto 0 auto;
+		display: inline-block;
+		position: relative;
+	}
+	.gradient1 {
+		background: #C02425; /* fallback for old browsers */
+		background: -webkit-linear-gradient(to left, #C02425 , #F0CB35); /* Chrome 10-25, Safari 5.1-6 */
+		background: linear-gradient(to left, #C02425 , #F0CB35); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	}
+	.gradient-holder {
+		height: 80px;
+	  position: relative;
+	}
+	.stop-marker {
+	    cursor: default;
+			padding: 0;
+			width: 22px;
+	    height: 22px;
+			border: 1px solid #fff;
+	    position: absolute;
+			bottom: 3px;
+		}
+		.canvas_holder {
+			height: 400px;
+			width: 400px;
+			margin: 0 auto 0 auto;
+			display: block;
+			position: relative;
+		}
+
+		.light_canvas {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		.card{
+			padding:1.5rem;
+			box-shadow:0 1px 2px #aaa;
+			background:white;
+			margin:0 1rem 1rem;
+			border-radius:3px;
+			width: 90%;
+			text-align:left;
+			display:inline-block;
+		}
+
+		.q{
+			float: right;
+			width: 64px;
+			text-align: right;
+		}
+
+		input {
+			display:block;
+			width:26rem;
+			margin:.5rem 1rem 0.2rem;
+			border:0; font-size:1.2rem;
+			padding:.75rem 1rem;
+			border-radius:3px;
+			box-shadow:0 1px 2px #aaa;
+		}
+
+		input[type="button"] {
+			background: #39c; color: #fff;
+		}
+
+		input[type="button"]:active, input[type="button"]:hover{
+			background-color:#e2674a;
+		}
+
+		input:focus {
+			margin:0 1rem 1rem;
+			outline:0;
+		}
+
+		/* Removes the clear button from date inputs */
+		input[type="date"]::-webkit-clear-button {
+			display: none;
+		}
+
+		/* Removes the spin button */
+		input[type="date"]::-webkit-inner-spin-button {
+		display: none;
+		}
+
+		/* Always display the drop down caret */
+		input[type="date"]::-webkit-calendar-picker-indicator {
+		color: #2c3e50;
+		}
+
+		/* A few custom styles for date inputs */
+		input[type="date"] {
+		appearance: none;
+		-webkit-appearance: none;
+		color: #95a5a6;
+		font-family: "Helvetica", arial, sans-serif;
+		font-size: 22px;
+		border:1px solid #ecf0f1;
+		background:#ecf0f1;
+		box-shadow: 1px 2px #ddd;
+		padding: 8px;
+		display: inline-block !important;
+		visibility: visible !important;
+		}
+
+		input[type="date"], focus {
+		color: #95a5a6;
+		box-shadow: none;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		}
+
+		.option_select {
+			curson: pointer;
+			float: right;
+			width: 24px;
+			height: 24px;
+			background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAZlJREFUeNrclUFugkAUhh8ENWBcuCAkxE1vQG9gT6IeoSfoETwC9iT1BnAIwoYFC4ImaqTvNzMNDgQGU9OkfzIhDMz3w8+bB9G/V1VVSx4hj6i6VyTml13rjQ5wwIft5XJZlmVJh8OBjsfjz3XbtslxHJpOp2RZ1p6n3g3DiLUMGL7mQ5jnOWH0aT6f3wZrwya7TgPAr9drmKYpnU4n7SjH4zH5vk+mad6ZGC2xREmSDIaPRiM6n8+0WCww9SrjMpV7t4jkkSf3PI8mk4mMdCuvm/VqwQfVybwtFj7dua5LRVEQOLK66m+wQrU8CIfWWZYBToKzUg0ClKIUyg8QTXgIOJ4eEpygYSDrfDab3TIFRDXpg0OCE7R9ZGwaQpbIFJC6iQ5cVcMAGWIRMr3dIEzwVkPhqkGM7Q9hkTAJpQneShcuOI19EKO3SKkmrBfdJxechsEnKqcuxeRDNxbECV5bq/jijdbYbFiAiHTgovHtuVW8DepFqC4UQN/m6+xFYnLTVv86cKwTLTv+u//Bb//Rnv5Pfrq+BRgAWkRHyTcaAPcAAAAASUVORK5CYII=') no-repeat right;
+		}
+		.option_select.on{
+			float: right;
+			width: 24px;
+			height: 24px;
+			background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAbtJREFUeNpiYBj24P///w5APB+Iz/9HBeeh4g749DPiMdgASPV/+v7c4e6rgwx3Xh9kePLuHFxeRsiIQUXUnkFZzJ6Bj1PyAFCokJGR8QJRFgANTwBS80/cncNw/O5sgr60VE5lsFBOATETgZYswGsByPCffz7PX306i+H151tEB6UorxpDqOk0BnYWXhRLGLEEy/klx2NJNhwYTAzA4GSIsVwMEjKEBRcTmtp+ULCQ43I/gy4gW5UBpB9kDkyeCTm1gCKUmDDHFixA7gJ3nTqGq8+2gHziAEtdyD6IB6UWMg0HgYSdV5rAwQQ1Jx7dAgNQUoQBUPIDGUKk4fNBhl97thXMgZpjgGEBLJ1rSXmDwxRkCLolhAwHAag5BtgiGZwaQGEJClOQIciWEGM4OsCwABSGIE2gMAURMEtAviLVcHQLLoCyPwiANEEtmQ+zBOQrYg2HmoORDy6AyhYYQLcECBSJdTnUHAwLFoJSDjJAs6Se2GDRkvYGm4diATBrHwCViqCCC4clCcQYDtIPDMoDIPNIKotgZQ2hzIe3LIIKJmJL/8QYDtIHLbIvDFx9QO0ajeZ1Ms0BQIABAKPxR6HFiMX7AAAAAElFTkSuQmCC') no-repeat right;
+		}
+
+		.depth {
+		  display: block;
+		  background: linear-gradient(#eee, #fff);
+		  transition: all 0.3s ease-out;
+		}
+
+		.depth:focus {
+		  outline: none;
+		  background-position: 0 -2.4em;
+		}
+
+		.links {
+			color: #333;
+			padding: 5px 6px 7px 6px;
+			line-height: 34px;
+			text-decoration: none;
+			background: #ddd;
+			margin: 3px;
+			border-radius: 0.3rem;
+		}
+		.ql {
+			display: inline-block;
+			width: 34%;
+			background: #ccc;
+			float: right;
+			padding: 3px 10px 4px;
+			text-align: right;
+			margin-top: 1px;
+		}
+		.l { background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAALVBMVEX///8EBwfBwsLw8PAzNjaCg4NTVVUjJiZDRUUUFxdiZGSho6OSk5Pg4eFydHTCjaf3AAAAZElEQVQ4je2NSw7AIAhEBamKn97/uMXEGBvozkWb9C2Zx4xzWykBhFAeYp9gkLyZE0zIMno9n4g19hmdY39scwqVkOXaxph0ZCXQcqxSpgQpONa59wkRDOL93eAXvimwlbPbwwVAegLS1HGfZAAAAABJRU5ErkJggg==') no-repeat left center;background-size: 1em;}
+</style>
+
+<script>
+	function c(l){
+		document.getElementById('s').value=l.innerText||l.textContent;
+		document.getElementById('p').focus();
+	}
+</script>
+
+</head>
+
+<body>
+
+<h1 class='add-top add-bottom'>Hello, welcome to your <strong>Blacklight</strong></h1>
+
+<a class='prefs' href='#'>
+	<img width='20' height='20' style='float:right; position: absolute; right: 20px; top: 20px' src='data:image/png;base64,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' /></a>
+
+<div id='city_input_card' class='card'>
+
+		<div id='city_input_holder' class="half-top">
+
+			<h2 style='padding-left: 15px;'>Please enter your <strong>city:</strong></h2>
+			<input id="city_input" class="half-top">
+			<input id="city_button" class='half-top half-bottom' type='button' value="Save" style='box-shadow: 1px 2px #ddd; color: #fff;'>
+
+		</div>
+
+		<div id="city_response"></div>
+
+</div>
+
+
+<div id='temp_card' class='card'>
+
+	<div  id="temp_select" class="option_select on"></div>
+
+			<h1>
+				Current temperature for <strong class="underline_link"><a href="#city_input_card" id="city_name" onclick="inputCity()"> &nbsp; </a></strong>
+			</h1>
+
+			<h3>Metric System: Degrees Celcius </h3>
+
+			<div class='main add-top'>
+
+				<div class="canvas_holder">
+					<canvas class='light_canvas add-top' id='light1'></canvas>
+					<canvas class='light_canvas add-top' id='light1b'></canvas>
+				</div>
+
+				<div id='temp_value' class='temp'>--</div>
+
+				<h3>Clear sky</h3>
+				<div class='gradient-holder'>
+				<input onchange='changeGradient(1)' id='color1' class='colour_box' type='color' name='color1' value='#F0CB35'/>
+				<div id='gradient1' class='gradient_box gradient1'>
+				<div id='temp_marker' class='stop-marker stop-marker-0' style='left: 195px;'></div>
+				</div>
+				<input onchange='changeGradient(1)' id='color2' class='colour_box' type='color' name='color2' value='#C02425'/>
+
+				</div>
+
+			</div>
+
+</div>
+
+
+<div id="air_card" class='card'>
+	<div  id="air_select" class="option_select"></div>
+	<h1>Air Quality for <strong class="underline_link"><a href="#city_input_card" id="air_city_name" onclick="inputCity()"> &nbsp; </a></strong></h1>
+		<h3>PM2.5 particle count</h3>
+
+		<div class='main'>
+
+			<div class="canvas_holder">
+				<canvas class='light_canvas add-top' id='light2'></canvas>
+				<canvas class='light_canvas add-top' id='light2b'></canvas>
+			</div>
+
+			<div id='air_value' class='temp'>--</div>
+			<h3 id="air_description"></h3>
+			<div class='gradient-holder'>
+			<input onchange='changeGradient(2)' id='color3' class='colour_box' type='color' name='color3' value='#bfe9ff'/>
+			<div id='gradient2' class='gradient_box gradient1'>
+				<div id='air_marker' class='stop-marker stop-marker-0' style='left: 195px;'></div>
+			</div>
+			<input onchange='changeGradient(2)' id='color4' class='colour_box' type='color' name='color4' value='#ff6e7f'/>
+
+			</div>
+
+		</div>
+
+</div>
+
+
+<div id='biorythms_input_card' class='card'>
+
+		<div id='date_input_holder' class="half-top">
+
+			<h2 style='padding-left: 15px;'>Please enter your <strong>birthdate:</strong></h2>
+			<input id="date_input" class="date half-top" type="date">
+			<input id="date_button" class='half-top half-bottom' type='button' value="Save" style='box-shadow: 1px 2px #ddd; color: #fff;'>
+
+		</div>
+
+		<div id="date_response"></div>
+
+</div>
+
+
+
+<div class='card' id='biorythms_card'>
+	<div  id="bio_select" class="option_select"></div>
+	<h1>Your <strong>Biorythms</strong></h1>
+	<h3>Depitcted as a percentage</h3>
+
+		<div class='main'>
+
+
+				<div class="canvas_holder">
+					<canvas class='light_canvas add-top' id='light3'></canvas>
+					<canvas class='light_canvas add-top' id='light3b'></canvas>
+				</div>
+
+				<div class='temp'>54</div>
+
+				<div class='gradient-holder'>
+				<input onchange='changeGradient(3)' id='color5' class='colour_box' type='color' value='#F0CB35'/>
+				<div id='gradient2' class='gradient_box gradient1'></div>
+				<input onchange='changeGradient(3)' id='color6' class='colour_box' type='color' value='#C02425'/>
+	      <div id='bio_marker' class='stop-marker stop-marker-0' title='Color stop' color='#2989D8' position='50' imarker='0' style='left: 195px;'></div>
+				</div>
+
+			</div>
+
+		</div>
+
+</div>
+
+
+<div class='card' id="light_select_card">
+	<h1>Choose your <strong>light</strong></h1>
+
+
+		<div class='main'>
+
+			<canvas id='light4'></canvas>
+
+		</div>
+
+</div>
+
+
+<script>
+// some globals
+var temp_percentage = 0;
+var air_percentage = 0;
+var bio_percentage = 0;
+var city = "";
+
+// SET COLOURS
+var ctx1 = addCanvas('light1', '400', '400');
+var ctx1b = addCanvas('light1b', '400', '400');
+var ctx2 = addCanvas('light2', '400', '400');
+var ctx2b = addCanvas('light2b', '400', '400');
+var ctx3 = addCanvas('light3', '400', '400');
+var ctx3b = addCanvas('light3b', '400', '400');
+var ctx4 = addCanvas('light4', '400', '400');
+var canvas = document.getElementById('light1');
+canvas.style.webkitFilter = "blur(10px)";
+var canvas = document.getElementById('light2');
+canvas.style.webkitFilter = "blur(10px)";
+
+
+ctx1.fillStyle = rgb(0);
+HfillEllipse(ctx1, w/2, h/2 - 50, 380, 380);
+
+// ctx1b.fillStyle = rgba(10, 0.4);
+// HfillEllipse(ctx1b, w/2 + 4, h/2 - 46, 280, 280);
+ctx1b.fillStyle = rgb(0);
+HfillEllipse(ctx1b, w/2, h/2 - 50, 280, 280);
+
+
+ctx2.fillStyle = rgb(0);
+HfillEllipse(ctx2, w/2, h/2 - 50, 300, 300);
+
+ctx2b.fillStyle = rgb(0);
+HfillEllipse(ctx2b, w/2, h/2 - 50, 280, 280);
+
+ctx3.fillStyle = rgb(0);
+HfillEllipse(ctx3, w/2, h/2 - 50, 300, 300);
+
+ctx3b.fillStyle = rgb(0);
+HfillEllipse(ctx3b, w/2, h/2 - 50, 280, 280);
+
+// choose light icons
+ctx4.fillStyle = rgb(0);
+HfillEllipse(ctx4, w/2, h/2 - 50, 200,200);
+HfillEllipse(ctx4, w/2 - 60, h -50, 30,30);
+ctx4.fillRect(w/2 - 15, h - 65, 30,30);
+eqFillTriangle(ctx4, w/2 + 60, h - 45, 20);
+
+
+//setColour(1, ctx1, temp_percentage);
+changeGradient(1);
+changeGradient(2);
+// changeGradient(3);
+
+
+document.getElementById('temp_select').addEventListener('click', selectTemp , false);
+document.getElementById('air_select').addEventListener('click', selectAir, false);
+document.getElementById('bio_select').addEventListener('click', selectBio, false);
+
+function selectTemp(){
+	localStorage.setItem('selected', 'temp');
+	sendColour(temp_percentage);
+	document.getElementById('temp_select').classList.add("on");
+	document.getElementById('air_select').classList.remove("on");
+	document.getElementById('bio_select').classList.remove("on");
+}
+
+function selectAir(){
+	localStorage.setItem('selected', 'air');
+	sendColour(air_percentage);
+	document.getElementById('air_select').classList.add("on");
+	document.getElementById('temp_select').classList.remove("on");
+	document.getElementById('bio_select').classList.remove("on");
+}
+
+function selectBio(){
+	localStorage.setItem('selected', 'bio');
+	sendColour(bio_percentage);
+	document.getElementById('bio_select').classList.add("on");
+	document.getElementById('air_select').classList.remove("on");
+	document.getElementById('temp_select').classList.remove("on");
+}
+
+var city_input = document.getElementById('city_button');
+city_input.addEventListener('click', saveCity, false);
+
+
+// check if the city is stored
+if (localStorage.city && localStorage.city!="") {
+	city = localStorage.city;
+	document.getElementById('city_input').value = city;
+	addCityName();
+	city_name.addEventListener('click', inputCity(), true);
+	document.getElementById('city_input_card').style.display = 'none';
+	console.log("saved city: " + city);
+	getWeather();
+	getAir();
+
+}
+
+
+if (localStorage.selected && localStorage.selected!="") {
+
+	if(localStorage.selected == 'temp') {
+		selectTemp();
+	} else if (localStorage.selected == 'air') {
+		selectAir();
+	} else {
+		selectBio();
+	}
+
+}
+
+if (localStorage.temp && localStorage.temp!="") {
+	temp = localStorage.temp;
+	setWeather(temp);
+}
+
+if (localStorage.air && localStorage.air!="") {
+	air = localStorage.air;
+	setAir(air);
+}
+
+if (localStorage.birthdate && localStorage.birthdate!="") {
+	birthdate = localStorage.birthdate;
+	document.getElementById('date_input').value = birthdate;
+	document.getElementById('biorythms_input_card').style.display = 'none';
+	} else {
+	document.getElementById('biorythms_card').style.display = 'none';
+}
+
+function sendColour(_p){
+	if (!localStorage.selected || localStorage.selected == "temp") {
+		color1 = document.getElementById('color1').value;
+		color2 = document.getElementById('color2').value;
+	} else if (localStorage.selected == "air") {
+		color1 = document.getElementById('color3').value;
+		color2 = document.getElementById('color4').value;
+	} else {
+		color1 = document.getElementById('color5').value;
+		color2 = document.getElementById('color6').value;
+	}
+
+	var c1 = hexToRgb(color1);
+	var c2 = hexToRgb(color2);
+	var c = getColour(c1, c2, _p);
+
+	console.log(c);
+	//setColour(color1, color2, 1, ctx1, temp_percentage);
+
+	// var send_url = '/settings?id='+id+'&state='+state+'&r='+c.r+'&g='+c.g+'&b='+c.b;
+	// loadJSON(send_url, send_response, weather_error);
+}
+
+sendColour(20)
+
+function saveCity(){
+	city = toTitleCase(document.getElementById('city_input').value);
+	localStorage.setItem("city", city);
+	addCityName();
+	var city_button = document.getElementById('city_button').value = "Loading...";
+	getWeather();
+}
+
+function addCityName(){
+	var city_name = document.getElementById('city_name');
+	var air_city_name = document.getElementById('air_city_name');
+	city_name.innerHTML = city;
+	air_city_name.innerHTML = city;
+}
+
+function inputCity(){
+	//console.log('inputCity');
+	document.getElementById('city_input_card').style.display = 'inline-block';
+}
+
+function getWeather(){
+
+	var weather_api = '6fb8c037edc949db233cbebd83e9641d';
+	var weather_api_url = 'http://api.openweathermap.org/data/2.5/weather?q=';
+	var weather_url = weather_api_url + city + '&units=metric&appid=' + weather_api;
+	console.log("loading weather...");
+	loadJSON(weather_url, weather_response, weather_error);
+
+}
+
+function getAir(){
+
+	var air_api = 'ZBvYXlkHc4IC1vGoTkRfPIyzYl0utxYN';
+	var air_api_url = 'https://api.openaq.org/v1/latest?city=';
+	var air_url = air_api_url + city + '&appid=' + air_api;
+	console.log("loading air...");
+	loadJSON(air_url, air_response, weather_error);
+
+}
+
+function loadJSON(file, callback, error_callback) {
+
+  var req = new XMLHttpRequest();
+  req.overrideMimeType("application/json");
+  req.open('GET', file, true); // Replace 'my_data' with the path to your file
+  req.onreadystatechange = function () {
+
+		if (req.status != 200 && req.status != 304) {
+			console.log("returned an error...");
+			error_callback(req);
+			if (req.status == 502) {
+				console.log("Unknown city");
+			}
+
+		} else if (req.readyState == 4 && req.status == "200") {
+	      // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+	      callback(req.responseText);
+
+	  } else {
+			console.log("loading...");
+		}
+
+	};
+    req.send(null);
+}
+
+function weather_response(response){
+
+	 var output = JSON.parse(response);
+	 document.getElementById('city_response').innerHTML = '<h2> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAAtUlEQVR4AcXOtXlCYRiG4edKhojXyQDJBEmQCbAZoIYeq2AfqHA6dAtocHeX37pzw/H3EyzwRpwmY8Y0iPGKho8+q4tfD7c6vmR181vKS94uugOn+y7PCMVZCQtWRBBqSgtqCI1P0aNj2QihobRggFBNulIVoaS0IIHQj7TgG4kyK8GvhJRTWOBAIX0XT6H0xfgqPuYTjdBVQRCtR3KneJYHDHzQ3sVbfGDon/nm94c5AvixyBoIPKEv+FCF1QAAAABJRU5ErkJggg=="" /> City saved as <strong>'+ output.name +'</strong></h2>';
+	 document.getElementById('city_input_holder').style.display = 'none';
+  //  console.log(output.main.temp);
+   var temp = output.main.temp;
+	 setWeather(temp);
+ }
+
+function air_response(response){
+
+	var output = JSON.parse(response);
+  // console.log(output);
+  // console.log(output.results[0].measurements[0].value);
+  var air = output.results[0].measurements[0].value;
+	console.log("air api: " + air);
+	setAir(air);
+ }
+
+ function send_response(response){
+	 	console.log("sent colour to lights");
+  }
+
+function setWeather(temp){
+	temp_percentage = Math.round(temp/34*100);
+	//temp_percentage = 96;
+	console.log("temp:" + temp);
+	console.log("temp_percentage: " + temp_percentage);
+	moveMarker('temp_marker', temp_percentage);
+	document.getElementById('temp_value').innerHTML = Math.floor(temp)+ '&deg;C';
+	localStorage.setItem("temp", temp);
+	//setColour(1, ctx1, temp_percentage);
+	//changeGradient(1);
+	color1 = document.getElementById('color1').value;
+	color2 = document.getElementById('color2').value;
+	setColour(color1, color2, 1, ctx1, temp_percentage);
+
+
+}
+
+function setAir(air){
+	air_percentage = Math.round(air/200*100);
+	//air_percentage = 30;
+	console.log("air:" + air);
+	console.log("air_percentage:" + air_percentage);
+	localStorage.setItem("air", air);
+	//setColour(2, ctx2, air_percentage);
+	//changeGradient(2);
+	moveMarker('air_marker', air_percentage);
+	var rating = getRating(air);
+	document.getElementById('air_value').innerHTML = Math.floor(air) + 'µg/m³';
+	document.getElementById('air_description').innerHTML = rating;
+	color1 = document.getElementById('color3').value;
+	color2 = document.getElementById('color4').value;
+	setColour(color1, color2, 2, ctx2, air_percentage);
+
+}
+
+function getRating(air){
+	if (air < 50) {
+		var rating = "Good";
+	} else if (air >= 50 && air < 75) {
+		var rating = "Slightly Polluted";
+	} else if (air >= 75 && air < 100) {
+		var rating = "Polluted";
+	} else if (air >= 100 && air < 150) {
+		var rating = "Very Polluted";
+	} else if (air >= 150 && air < 200) {
+		var rating = "Heavily Polluted";
+	} else if (air >= 200) {
+		var rating = "Dangerous";
+	}
+	return rating;
+}
+
+function weather_error(response){
+   //console.log(response);
+   document.getElementById('city_response').innerHTML = 'Unable to locate city. Please try again.';
+ }
+
+function moveMarker(marker, pos){
+	var temp_marker = document.getElementById(marker);
+	if (pos> 50) {
+		temp_marker.style.left = 'calc(' + pos + '% - 30px)';
+	} else {
+		temp_marker.style.left = 'calc(' + pos + '% + 5px)';
+	}
+}
+
+function changeGradient(num) {
+	if (num ==1) {
+		color1 = document.getElementById('color1').value;
+		color2 = document.getElementById('color2').value;
+		var dest = document.getElementById('gradient1');
+		setColour(color1, color2, 1, ctx1, temp_percentage);
+	} else if (num == 2) {
+		color1 = document.getElementById('color3').value;
+		color2 = document.getElementById('color4').value;
+		var dest = document.getElementById('gradient2');
+		setColour(color1, color2, 2, ctx2, air_percentage);
+	} else {
+		color1 = document.getElementById('color5').value;
+		color2 = document.getElementById('color6').value;
+		var dest = document.getElementById('gradient3');
+		setColour(color1, color2, 3, ctx3, bio_percentage);
+	}
+
+		dest.style.background='linear-gradient(to right, '+color1+', '+color2+')';
+}
+
+function setColour(color1, color2, num, ctx, _p) {
+
+	var c1 = hexToRgb(color1);
+	var c2 = hexToRgb(color2);
+	// console.log(_p);
+	// console.log(c1);
+	// console.log(c2);
+	var c = getColour(c1, c2, _p);
+	//console.log(c);
+	ctx.clearRect(0,0,w,h);
+	ctx.fillStyle = rgb(c.r, c.g, c.b);
+	HfillEllipse(ctx, w/2, h/2 - 50, 300,300);
+
+}
+
+function getColour(c1, c2, percentage) {
+	//percentage = 100- percentage;
+  if (c2.r > c1.r ) {
+		var r = c1.r + (c2.r - c1.r) * (percentage/100);
+  } else {
+  	var r = c2.r + (c1.r - c2.r) * (percentage/100);
+  }
+
+  if (c2.g > c1.g ) {
+	 var g = c1.g + Math.abs(c2.g - c1.g) * percentage/100;
+  } else {
+   var g = c2.g + Math.abs(c1.g - c2.g) * percentage/100;
+  }
+
+  if (c2.b > c1.b ) {
+	 var b = c1.b + Math.abs(c2.b - c1.b) * percentage/100;
+  } else {
+   var b = c2.b + Math.abs(c1.b - c2.b) * percentage/100;
+  }
+	// console.log(c1.b);
+	// console.log(c2.b);
+	 return {r:r, g:g, b:b};
+
+}
+
+function hexToRgb(hex) {
+    // Expand shorthand form (e.g. '03F') to full form (e.g. '0033FF')
+    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+        return r + r + g + g + b + b;
+    });
+
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
+function rgb(r, g, b) {
+
+ if (g == undefined) g = r;
+ if (b == undefined) b = r;
+ return 'rgb('+clamp(Math.round(r),0,255)+', '+clamp(Math.round(g),0,255)+', '+clamp(Math.round(b),0,255)+')';
+
+};
+
+function rgba(r, g, b, a) {
+ if (b == undefined) {
+  return 'rgba('+clamp(Math.round(r),0,255)+', '+clamp(Math.round(r),0,255)+', '+clamp(Math.round(r),0,255)+', '+clamp(g,0,1)+')';
+ } else {
+ return 'rgba('+clamp(Math.round(r),0,255)+', '+clamp(Math.round(g),0,255)+', '+clamp(Math.round(b),0,255)+', '+clamp(a,0,1)+')';
+ }
+};
+
+function hsl(h, s, l) { return 'hsl('+h+', '+clamp(s,0,100)+'%, '+clamp(l,0,100)+'%)';};
+
+function hslToRgb(h, s, l){
+    var r, g, b;
+
+    if(s == 0){
+        r = g = b = l; // achromatic
+    }else{
+        var hue2rgb = function hue2rgb(p, q, t){
+            if(t < 0) t += 1;
+            if(t > 1) t -= 1;
+            if(t < 1/6) return p + (q - p) * 6 * t;
+            if(t < 1/2) return q;
+            if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+            return p;
+        }
+
+        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        var p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+    }
+
+    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+}
+
+function clamp(value, min, max){
+  return Math.min(Math.max(value, Math.min(min, max)),Math.max(min, max));
+}
+
+function HfillEllipse (ctx, x, y, width, height) {
+ if (height == undefined) height = width;
+ Hellipse(ctx,x,y,width, height);
+ ctx.fill();
+ ctx.beginPath();
+};
+
+function Hellipse (ctx, x, y, width, height) {
+ 'use strict';
+ if (height == undefined) { height = width; }
+ ctx.beginPath();
+ for(var i=0;i<Math.PI*2;i+=Math.PI/64) {
+ ctx.lineTo(x+(Math.cos(i)*width/2), y+(Math.sin(i)*height/2));
+ }
+ ctx.closePath();
+};
+
+function eqFillTriangle (ctx, x, y, sz, down) {
+ 	fillTriangle(ctx, x, y - sz, x + sz, y + sz/2, x - sz, y + sz/2);
+}
+
+function fillTriangle(ctx, x1, y1, x2, y2, x3, y3) {
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.lineTo(x3, y3);
+  ctx.lineTo(x1, y1);
+  ctx.fill();
+  ctx.closePath();
+ };
+
+ function toTitleCase(str)
+ {
+     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+ }
+
+</script>
+	</body>
+</html>

@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Blend&mdash;Create and customize beautiful CSS3 gradients.</title>
+	<!-- General -->
+	<meta name="description" content="Blend—Create and customize beautiful CSS3 gradients.">
+
+	<link rel="stylesheet" type="text/css" href="css/blend_style.css">
+	<script src="js/jquery-1.10.1.min.js"></script>
+	<!-- <script src="js/jquery-ui.min.js"></script> -->
+	<script type="text/javascript">
+		jQuery.fn.selectText = function(){
+			var doc = document;
+			var element = this[0];
+			console.log(this, element);
+			if (doc.body.createTextRange) {
+				var range = document.body.createTextRange();
+				range.moveToElementText(element);
+				range.select();
+			} else if (window.getSelection) {
+				var selection = window.getSelection();
+				var range = document.createRange();
+				range.selectNodeContents(element);
+				selection.removeAllRanges();
+				selection.addRange(range);
+			}
+		};
+		$(function() {
+			$('.select-gradient').click(function() {
+				$('#gradient-output-select').selectText();
+			});
+		});
+	</script>
+</head>
+<body class="gradient-linear">
+
+	<div class="swatch_holder left">
+
+	<div class="block" data-colour="red" style="background: red">
+			&nbsp;
+	</div>
+
+	<div class="block" data-colour="orange" style="background: orange">
+			&nbsp;
+	</div>
+
+	<div class="block" data-colour="yellow" style="background: yellow">
+			&nbsp;
+	</div>
+
+	<div class="block" data-colour="blue" style="background: blue">
+			&nbsp;
+	</div>
+
+	<div class="block" data-colour="green" style="background: green">
+			&nbsp;
+	</div>
+
+	<div class="block" data-colour="indigo" style="background: indigo">
+			&nbsp;
+	</div>
+
+	<div class="block" data-colour="violet" style="background: violet">
+			&nbsp;
+	</div>
+
+</div>
+
+
+<div class="swatch_holder right">
+
+	<div class="block" data-colour="red" style="background: red">
+			&nbsp;
+	</div>
+
+	<div class="block" data-colour="orange" style="background: orange">
+			&nbsp;
+	</div>
+
+	<div class="block" data-colour="yellow" style="background: yellow">
+			&nbsp;
+	</div>
+
+	<div class="block" data-colour="blue" style="background: blue">
+			&nbsp;
+	</div>
+
+	<div class="block" data-colour="green" style="background: green">
+			&nbsp;
+	</div>
+
+	<div class="block" data-colour="indigo" style="background: indigo">
+			&nbsp;
+	</div>
+
+	<div class="block" data-colour="violet" style="background: violet">
+			&nbsp;
+	</div>
+
+</div>
+
+
+	<div id="main">
+
+
+
+
+		<div class="controls">
+
+			<div class="color-download control">
+				<svg version="1.1"
+					 x="0px" y="0px" width="29.5px" height="22px" viewBox="0 0 29.5 22" enable-background="new 0 0 29.5 22" xml:space="preserve">
+				<g>
+					<path fill="#098AFF" d="M7.9,2.7C7.5,2.4,6.8,2.4,6.5,2.9l-6.2,7.3c-0.1,0.1-0.1,0.1-0.1,0.2C0,10.5,0,10.7,0,10.8
+						c0,0.1,0,0.3,0.1,0.4c0,0.1,0.1,0.2,0.1,0.2l6.2,7.6c0.2,0.2,0.5,0.4,0.8,0.4c0.2,0,0.4-0.1,0.6-0.2c0.4-0.3,0.5-1,0.1-1.4l-5.7-7
+						L8,4.1C8.4,3.7,8.3,3.1,7.9,2.7z"/>
+					<path fill="#098AFF" d="M29.4,10.7c0-0.1-0.1-0.2-0.1-0.2L23,2.9c-0.3-0.4-1-0.5-1.4-0.1c-0.4,0.3-0.5,1-0.1,1.4l5.7,7l-5.7,6.7
+						c-0.4,0.4-0.3,1.1,0.1,1.4c0.2,0.2,0.4,0.2,0.6,0.2c0.3,0,0.6-0.1,0.8-0.4l6.2-7.3c0.1-0.1,0.1-0.1,0.2-0.2
+						c0.1-0.1,0.1-0.3,0.1-0.4c0,0,0,0,0,0c0,0,0,0,0,0C29.5,11,29.5,10.9,29.4,10.7z"/>
+					<path fill="#098AFF" d="M17.5,0c-0.5-0.1-1.1,0.2-1.2,0.7l-5,20c-0.1,0.5,0.2,1.1,0.7,1.2c0.1,0,0.2,0,0.2,0c0.4,0,0.9-0.3,1-0.8
+						l5-20C18.4,0.7,18,0.2,17.5,0z"/>
+				</g>
+				</svg>
+			</div>
+		</div>
+		<div id="gradient-output">
+<pre>
+<code id="gradient-output-select">.blend-gradient {
+  <span class="blend-gradient"></span>
+  <span class="blend-webkit-gradient"></span>
+}</code>
+</pre>
+
+			<!-- <div class="select-gradient">
+				Highlight Code
+			</div> -->
+		</div>
+
+		<div class="color-container container-1">
+			<span id="color-custom"></span>
+			<div class="color-panel color-flat-ui color-panel-1"></div>
+		</div>
+		<div class="color-container container-2">
+			<span id="color-custom-2"></span>
+			<div class="color-panel color-flat-ui color-panel-2"></div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/spectrum.js"></script>
+	<script type="text/javascript" src="js/interface.js"></script>
+
+</body>
+</html>
