@@ -209,7 +209,7 @@ padding: 4%;
 .clear{clear:both;}
 
 
-@media (max-width : 800px) {
+@media (max-width : 1000px) {
 body {
   font-size: 200%;
 }
