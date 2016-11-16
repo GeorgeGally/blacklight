@@ -378,6 +378,7 @@ var bio_percentage = 0;
 var city = "";
 
 // SET COLOURS
+
 var ctx1 = addCanvas('light1', '400', '400');
 var ctx1b = addCanvas('light1b', '400', '400');
 var ctx2 = addCanvas('light2', '400', '400');
@@ -391,40 +392,43 @@ var canvas = document.getElementById('light2');
 canvas.style.webkitFilter = "blur(10px)";
 
 
-ctx1.fillStyle = rgb(0);
-HfillEllipse(ctx1, w/2, h/2 - 50, 380, 380);
+function drawCanvas(){
 
-// ctx1b.fillStyle = rgba(10, 0.4);
-// HfillEllipse(ctx1b, w/2 + 4, h/2 - 46, 280, 280);
-ctx1b.fillStyle = rgb(0);
-HfillEllipse(ctx1b, w/2, h/2 - 50, 280, 280);
+	ctx1.fillStyle = rgb(0);
+	HfillEllipse(ctx1, w/2, h/2 - 50, 380, 380);
+
+	// ctx1b.fillStyle = rgba(10, 0.4);
+	// HfillEllipse(ctx1b, w/2 + 4, h/2 - 46, 280, 280);
+	ctx1b.fillStyle = rgb(0);
+	HfillEllipse(ctx1b, w/2, h/2 - 50, 280, 280);
 
 
-ctx2.fillStyle = rgb(0);
-HfillEllipse(ctx2, w/2, h/2 - 50, 300, 300);
+	ctx2.fillStyle = rgb(0);
+	HfillEllipse(ctx2, w/2, h/2 - 50, 300, 300);
 
-ctx2b.fillStyle = rgb(0);
-HfillEllipse(ctx2b, w/2, h/2 - 50, 280, 280);
+	ctx2b.fillStyle = rgb(0);
+	HfillEllipse(ctx2b, w/2, h/2 - 50, 280, 280);
 
-ctx3.fillStyle = rgb(0);
-HfillEllipse(ctx3, w/2, h/2 - 50, 300, 300);
+	ctx3.fillStyle = rgb(0);
+	HfillEllipse(ctx3, w/2, h/2 - 50, 300, 300);
 
-ctx3b.fillStyle = rgb(0);
-HfillEllipse(ctx3b, w/2, h/2 - 50, 280, 280);
+	ctx3b.fillStyle = rgb(0);
+	HfillEllipse(ctx3b, w/2, h/2 - 50, 280, 280);
 
-// choose light icons
-ctx4.fillStyle = rgb(0);
-HfillEllipse(ctx4, w/2, h/2 - 50, 200,200);
-HfillEllipse(ctx4, w/2 - 60, h -50, 30,30);
-ctx4.fillRect(w/2 - 15, h - 65, 30,30);
-eqFillTriangle(ctx4, w/2 + 60, h - 45, 20);
+	// choose light icons
+	ctx4.fillStyle = rgb(0);
+	HfillEllipse(ctx4, w/2, h/2 - 50, 200,200);
+	HfillEllipse(ctx4, w/2 - 60, h -50, 30,30);
+	ctx4.fillRect(w/2 - 15, h - 65, 30,30);
+	eqFillTriangle(ctx4, w/2 + 60, h - 45, 20);
 
+}
 
 //setColour(1, ctx1, temp_percentage);
 changeGradient(1);
 changeGradient(2);
 // changeGradient(3);
-
+drawCanvas();
 
 document.getElementById('temp_select').addEventListener('click', selectTemp , false);
 document.getElementById('air_select').addEventListener('click', selectAir, false);
@@ -644,7 +648,7 @@ function setAir(air){
 	//changeGradient(2);
 	moveMarker('air_marker', air_percentage);
 	var rating = getRating(air);
-	document.getElementById('air_value').innerHTML = Math.floor(air) + 'µg/m³';
+	document.getElementById('air_value').innerHTML = Math.floor(air);
 	document.getElementById('air_description').innerHTML = rating;
 	color1 = document.getElementById('color3').value;
 	color2 = document.getElementById('color4').value;
