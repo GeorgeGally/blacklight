@@ -55,4 +55,5 @@ function resize(ww, hh){
 		c[i].height = height;
 	}
 	console.log("resize: " + w +":" + h);
+	//drawCanvas();
 }
