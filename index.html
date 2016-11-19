@@ -50,7 +50,7 @@
 	.half-bottom { margin-bottom: 25px !important;}
 	.hidden { display: none; }
 
-	a, a:visited, strong { font-weight:300; color:#f2722a; }
+	a, a:visited, strong { font-weight:300; color:#f2722a; text-decoration: underline; }
 
 	.underline_link {
 		text-decoration: underline;
@@ -116,6 +116,10 @@
 		position: relative;
 	}
 
+	.city_name a {
+		text-underline;
+	}
+
 	.colour_box {
 			width: 25px;
 			height: 30px;
@@ -172,14 +176,12 @@
 	.gradient_box {
 		height: 78px;
 		width: 100%;
-		margin: 0 auto 0 auto;
-		box-shadow: 0 2px 2px #000 inset;
-    border: 3px solid #fff;
-		display: inline-block;
+
+    border: 1px solid #fff;
 		position: relative;
 	}
 	.gradient_box.active{
-		box-shadow: none;
+		box-shadow: 0 1px 2px 0 #777;
     border: 2px solid #fff;
 	}
 	.gradient1 {
@@ -193,14 +195,14 @@
 	  position: relative;
 	}
 
-	.stop-marker {
+	.marker {
 	    cursor: default;
 			padding: 0;
-			width: 22px;
+			width: 42px;
 	    height: 66px;
 	    position: absolute;
 			bottom: 4px;
-			box-shadow: 0 2px 2px #000;
+			box-shadow: 0 2px 2px #000 inset;
     	border: 2px solid #fff;
 	}
 
@@ -342,25 +344,16 @@
 
 </style>
 
-<script>
-	// function c(l){
-	// 	document.getElementById('s').value=l.innerText||l.textContent;
-	// 	document.getElementById('p').focus();
-	// }
-</script>
 
 </head>
 
 <body>
 
-<!-- <h1 class='add-top add-bottom'>Hello, welcome to your <strong>Blacklight</strong></h1> -->
-
-
 <div id='intro_card' style = "background:#2699C9; padding: 0% 5% 2% " class='card white'>
 
 
 			<h2 style = "color: #fff;" >
-				Light is <strong class="underline_link"><a href="#city_input_card" id="light_status" style="color: #000;" onclick="inputCity()">connected</a></strong>
+				Light is <strong><a href="#city_input_card" id="light_status" style="color: #000;" onclick="inputCity()">connected</a></strong>
 			</h2>
 
 
@@ -372,7 +365,7 @@
 	<div  id="temp_select" class="option_select option_select_card"></div>
 
 			<h1>
-				Current temperature for <strong class="underline_link"><a href="#city_input_card" id="city_name"  class="city_name"  onclick="inputCity()"> &nbsp; </a></strong>
+				Current temperature for <a href="#city_input_card" id="city_name"  class="city_name"  onclick="inputCity()"> &nbsp; </a>
 			</h1>
 
 			<h3>Metric System: Degrees Celcius </h3>
@@ -395,7 +388,7 @@
 
 <div id="air_card" class='half-top card card_narrow'>
 	<div  id="air_select" class="option_select option_select_card"></div>
-	<h1 >Air Quality for <strong class="underline_link city_name"><a href="#city_input_card" id="air_city_name"  class="city_name" onclick="inputCity()"> &nbsp; </a></strong></h1>
+	<h1 >Air Quality for <a href="#city_input_card" id="air_city_name"  class="city_name" onclick="inputCity()"> &nbsp; </a></h1>
 		<h3>PM2.5 particle count</h3>
 
 		<div class='main'>
@@ -414,13 +407,13 @@
 
 </div>
 
-<div id='time_card' class='card card_narrow half-top'>
+<div id='time_card' class='card card_narrow'>
 
 	<div  id="time_select" class="option_select option_select_card"></div>
 
 	<h1>
-		Current time for <strong class="underline_link">
-			<a href="#city_input_card" class="city_name" id="city_name" onclick="inputCity()"> &nbsp; </a></strong>
+		Current time for
+			<a href="#city_input_card" class="city_name" id="city_name" onclick="inputCity()"> &nbsp; </a>
 	</h1>
 
 	<h3>Tokyo, Shanghai, Berlin, Beunos Aires.</h3>
@@ -443,12 +436,12 @@
 </div>
 
 
-<div id='bio_card' class='card card_narrow half-top'>
+<div id='bio_card' class='card card_narrow'>
 
-	<div  id="bio_select" class="option_select on option_select_card"></div>
+	<div  id="bio_select" class="option_select option_select_card"></div>
 
 			<h1>
-				Your Biorythms <strong class="underline_link"><a href="#city_input_card"  class="city_name"  onclick="inputCity()"> &nbsp; </a></strong>
+				Your Biorythms <a href="#city_input_card"  class="city_name"  onclick="inputCity()"> &nbsp; </a>
 			</h1>
 
 			<h3>Depitcted as a percentage</h3>
@@ -456,8 +449,8 @@
 			<div class='main'>
 
 				<div class="canvas_holder">
-					<canvas class='light_canvas' id='light3'></canvas>
-					<canvas class='light_canvas' id='light3b'></canvas>
+					<canvas class='light_canvas' id='light4'></canvas>
+					<canvas class='light_canvas' id='light4b'></canvas>
 				</div>
 
 				<div id='bio_value' class='temp'>--</div>
@@ -472,7 +465,7 @@
 <div id='city_input_card' class='card card_narrow'>
 
 		<div id='city_input_holder'>
-			<!-- <span id='city_input_select'></span> -->
+			<span id='city_input_select'></span>
 			<h2 style='font-size: 28px;'>City:</h2>
 			<input id="city_input" focus class="text_input half-top add-bottom" style="width: 100%;">
 			<input id="city_button" class='half-top half-bottom' type='button' value="Save" style='box-shadow: 1px 2px #ddd; color: #fff; display: inline-block; margin-right: 20px;'>
@@ -484,7 +477,7 @@
 
 </div>
 
-<div id = 'colour_select_card' class="card card_narrow half-top">
+<div id = 'colour_select_card' class="card card_narrow">
 		<h2 class='half-bottom'>Colour:</h2>
 
 		<div class='gradient-holder'>
@@ -492,7 +485,7 @@
 			<div style = "margin: 0 auto 0 auto; display: block;">
 
 		<div id='gradient1' class='gradient_box active gradient1'>
-		<div id='temp_marker' class='stop-marker stop-marker-0' style='left: 195px;'></div>
+		<div id='gradient1_marker' class='marker stop-marker-0' style='left: 195px;'></div>
 
 			</div>
 
@@ -506,7 +499,7 @@
 		<div class='gradient-holder'>
 
 		<div id='gradient2' class='gradient_box gradient2'>
-			<!-- <div id='air_marker' class='stop-marker stop-marker-0' style='left: 195px;'></div> -->
+		<div id='gradient2_marker' class='marker stop-marker-0' style='left: 195px;'></div>
 		</div>
 			<input onchange='changeGradient(2)' id='color3' class='colour_box' type='color' name='color3' value='#bfe9ff'/>
 		<input onchange='changeGradient(2)' id='color4' class='colour_box' type='color' name='color4' value='#ff6e7f'/>
@@ -517,7 +510,7 @@
 
 		<div id='gradient3' class='gradient_box gradient3'>
 
-			<!-- <div id='air_marker' class='stop-marker stop-marker-0' style='left: 195px;'></div> -->
+			<div id='gradient3_marker' class='marker stop-marker-0' style='left: 195px;'></div>
 		</div>
 			<input onchange='changeGradient(3)' id='color5' class='colour_box' type='color' name='color5' value='#bfe9ff'/>
 		<input onchange='changeGradient(3)' id='color6' class='colour_box' type='color' name='color6' value='#ff6e7f'/>
@@ -526,7 +519,7 @@
 
 	</div>
 
-<div id='bio_input_card_card' class='card card_narrow half-top'>
+<div id='bio_input_card_card' class='card card_narrow'>
 
 		<div id='date_input_holder' class="half-top">
 
@@ -540,15 +533,14 @@
 
 </div>
 
+<div id="light_select_card" class='card card_narrow' >
 
-
-<div id="light_select_card" class='card half-top' >
 	<h1>Choose your <strong>light</strong></h1>
 
 
 		<div class='main'>
 
-			<canvas id='light4'></canvas>
+			<canvas id='light5'></canvas>
 
 		</div>
 
@@ -581,8 +573,13 @@ var ctx2b = addCanvas('light2b', canvas_w, canvas_w);
 var ctx3 = addCanvas('light3', canvas_w, canvas_w);
 var ctx3b = addCanvas('light3b', canvas_w, canvas_w);
 var ctx4 = addCanvas('light4', canvas_w, canvas_w);
+var ctx4b = addCanvas('light4b', canvas_w, canvas_w);
+var ctx5 = addCanvas('light5', canvas_w, canvas_w);
+
 document.getElementById('light1').style.webkitFilter = "blur(20px)";
 document.getElementById('light2').style.webkitFilter = "blur(20px)";
+document.getElementById('light3').style.webkitFilter = "blur(20px)";
+document.getElementById('light4').style.webkitFilter = "blur(20px)";
 
 // document.getElementById('temp_select').addEventListener('click', selectTemp , false);
 // document.getElementById('air_select').addEventListener('click', selectAir, false);
@@ -602,6 +599,7 @@ for (var i = 0; i < option_select_card.length; i++) {
 var city_name = document.querySelectorAll('.city_name');
 for (var i = 0; i < city_name.length; i++) {
     city_name[i].addEventListener('click', function(event) {
+
         // if (!confirm("sure u want to delete " + this.title)) {
         //     event.preventDefault();
         // }
@@ -614,11 +612,33 @@ for (var i = 0; i < city_name.length; i++) {
 var gradient_box = document.querySelectorAll('.gradient_box');
 for (var i = 0; i < gradient_box.length; i++) {
     gradient_box[i].addEventListener('click', function(event) {
-  	//gradient_box[i].classList.toggle("active");
-		console.log(gradient_box[i]);
+			var id = event.srcElement.id;
+			hideMarkers(id);
+			selectGradient(id);
     });
 }
 
+
+function selectGradient(id){
+
+	var marker = id+"_marker";
+	for (var j = 0; j < gradient_box.length; j++) {
+			gradient_box[j].classList.remove("active");
+	}
+
+	console.log(marker);
+	document.getElementById(marker).style.display = "block";
+	document.getElementById(id).classList.add("active");
+	//event.srcElement.classList.add("active");
+	localStorage.setItem("gradient", id);
+}
+
+function hideMarkers(){
+	var marker = document.querySelectorAll('.marker');
+	for (var i = 0; i < marker.length; i++) {
+			marker[i].style.display = "none";
+	}
+}
 
 city_button.addEventListener('click', saveCity, false);
 city_button.style.display = 'none';
@@ -643,24 +663,40 @@ city_input.onblur = function() {
 
 
 function setup(){
+
 	changeGradient(1);
 	changeGradient(2);
 	changeGradient(3);
 	//drawCanvas();
+	ctx1.fillStyle = rgb(200, 0, 0);
+	ctx1.HfillEllipse(w/2, h/2, shadow_size, shadow_size);
+	ctx1b.fillStyle = rgb(0);
+	ctx1b.HfillEllipse(w/2, h/2, light_size, light_size);
+
+	ctx2.fillStyle = rgb(200, 200, 0);
+	ctx2.HfillEllipse(w/2, h/2, shadow_size, shadow_size);
+	ctx2b.fillStyle = rgb(0);
+	ctx2b.HfillEllipse(w/2, h/2, light_size, light_size);
+
+	ctx3.fillStyle = rgb(200, 200, 0);
+	ctx3.HfillEllipse(w/2, h/2, shadow_size, shadow_size);
+	ctx3b.fillStyle = rgb(0);
+	ctx3b.HfillEllipse(w/2, h/2, light_size, light_size);
+
+	ctx4.fillStyle = rgb(200, 200, 0);
+	ctx4.HfillEllipse(w/2, h/2, shadow_size, shadow_size);
+	ctx4b.fillStyle = rgb(0);
+	ctx4b.HfillEllipse(w/2, h/2, light_size, light_size);
+
+
 	getWeather();
 	getAir();
+
+
 }
 
 
-ctx1.fillStyle = rgb(200, 0, 0);
-ctx1.HfillEllipse(w/2, h/2, shadow_size, shadow_size);
-ctx1b.fillStyle = rgb(0);
-ctx1b.HfillEllipse(w/2, h/2, light_size, light_size);
 
-ctx2.fillStyle = rgb(200, 200, 0);
-ctx2.HfillEllipse(w/2, h/2, shadow_size, shadow_size);
-ctx2b.fillStyle = rgb(0);
-ctx2b.HfillEllipse(w/2, h/2, light_size, light_size);
 
 
 function drawCanvas(){
@@ -682,29 +718,40 @@ function drawCanvas(){
 	ctx3b.fillStyle = rgb(0);
 	HfillEllipse(ctx3b, w/2, h/2, 280, 280);
 
-	// choose light icons
 	ctx4.fillStyle = rgb(0);
+	HfillEllipse(ctx3, w/2, h/2, 300, 300);
+
+	ctx4b.fillStyle = rgb(0);
+	HfillEllipse(ctx3b, w/2, h/2, 280, 280);
+
+
+	// choose light icons
+	ctx5.fillStyle = rgb(0);
 	HfillEllipse(ctx4, w/2, h/2 - 50, 200,200);
 	HfillEllipse(ctx4, w/2 - 60, h -50, 30,30);
-	ctx4.fillRect(w/2 - 15, h - 65, 30,30);
+	ctx5.fillRect(w/2 - 15, h - 65, 30,30);
 	eqFillTriangle(ctx4, w/2 + 60, h - 45, 20);
 
 }
 
 function selectCard(id){
 
-	var card_name = document.querySelectorAll('.city');
+	var card_name = document.querySelectorAll('.selected');
 	for (var i = 0; i < card_name.length; i++) {
-    city_name[i].classList.remove("on");
-		city_name[i].classList.add("card_narrow");
+    card_name[i].classList.remove("on");
+	}
+
+	var card_name = document.querySelectorAll('.card');
+	for (var i = 0; i < card_name.length; i++) {
+		card_name[i].classList.add("card_narrow");
 	}
 
 	var selecta = id + "_select";
 	var card = id + "_card";
 
 	if (id != 'city_input') localStorage.setItem('selected', id);
-	//console.log("------" +id);
-	console.log("------" +card);
+	console.log("------" +selecta);
+	//console.log("------ " +card);
 	document.getElementById(selecta).classList.add("on");
 	document.getElementById(card).classList.remove("card_narrow");
 
@@ -737,7 +784,15 @@ if (localStorage.selected && localStorage.selected!="") {
 // 	air = localStorage.air;
 // 	//setAir(air);
 // }
-//
+
+// check if the city is stored
+if (localStorage.gradient && localStorage.gradient!="") {
+	gradient = localStorage.gradient;
+	selectGradient(gradient);
+} else {
+	selectGradient("gradient1");
+}
+
 // if (localStorage.birthdate && localStorage.birthdate!="") {
 // 	birthdate = localStorage.birthdate;
 // 	document.getElementById('date_input').value = birthdate;
