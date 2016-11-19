@@ -356,20 +356,20 @@
 <!-- <h1 class='add-top add-bottom'>Hello, welcome to your <strong>Blacklight</strong></h1> -->
 
 
-<div id='intro_card' style = "background:#2699C9;" class='card white'>
+<div id='intro_card' style = "background:#2699C9; padding: 0% 5% 2% " class='card white'>
 
 
-			<h1 style = "color: #fff;" >
-				Light is <strong class="underline_link"><a href="#city_input_card" id="light_status" onclick="inputCity()">connected</a></strong>
-			</h1>
+			<h2 style = "color: #fff;" >
+				Light is <strong class="underline_link"><a href="#city_input_card" id="light_status" style="color: #000;" onclick="inputCity()">connected</a></strong>
+			</h2>
 
 
 </div>
 
 
-<div id='temp_card' class='card'>
+<div id='temp_card' class='card card_narrow'>
 
-	<div  id="temp_select" class="option_select on option_select_card"></div>
+	<div  id="temp_select" class="option_select option_select_card"></div>
 
 			<h1>
 				Current temperature for <strong class="underline_link"><a href="#city_input_card" id="city_name"  class="city_name"  onclick="inputCity()"> &nbsp; </a></strong>
@@ -392,7 +392,6 @@
 			</div>
 
 </div>
-
 
 <div id="air_card" class='half-top card card_narrow'>
 	<div  id="air_select" class="option_select option_select_card"></div>
@@ -485,7 +484,7 @@
 
 </div>
 
-<div id = 'colour_select' class="card card_narrow half-top">
+<div id = 'colour_select_card' class="card card_narrow half-top">
 		<h2 class='half-bottom'>Colour:</h2>
 
 		<div class='gradient-holder'>
@@ -527,7 +526,7 @@
 
 	</div>
 
-<div id='bio_input_card' class='card card_narrow half-top'>
+<div id='bio_input_card_card' class='card card_narrow half-top'>
 
 		<div id='date_input_holder' class="half-top">
 
@@ -692,69 +691,6 @@ function drawCanvas(){
 
 }
 
-// function selectTemp(){
-// 	localStorage.setItem('selected', 'temp');
-// 	sendColour(temp_percentage);
-//
-// 	document.getElementById('temp_card').classList.remove("card_narrow");
-// 	document.getElementById('air_card').classList.add("card_narrow");
-// 	document.getElementById('time_card').classList.add("card_narrow");
-// 	document.getElementById('bio_card').classList.add("card_narrow");
-//
-// 	document.getElementById('temp_select').classList.add("on");
-// 	document.getElementById('air_select').classList.remove("on");
-// 	document.getElementById('time_select').classList.remove("on");
-// 	document.getElementById('bio_select').classList.remove("on");
-// }
-
-// function selectAir(){
-// 	localStorage.setItem('selected', 'air');
-// 	sendColour(air_percentage);
-//
-// 	document.getElementById('temp_card').classList.add("card_narrow");
-// 	document.getElementById('air_card').classList.remove("card_narrow");
-// 	document.getElementById('time_card').classList.add("card_narrow");
-// 	document.getElementById('bio_card').classList.add("card_narrow");
-//
-// 	document.getElementById('temp_select').classList.remove("on");
-// 	document.getElementById('air_select').classList.add("on");
-// 	document.getElementById('time_select').classList.remove("on");
-// 	document.getElementById('bio_select').classList.remove("on");
-// }
-
-// function selectBio(){
-// 	localStorage.setItem('selected', 'bio');
-// 	sendColour(bio_percentage);
-//
-// 	document.getElementById('temp_card').classList.add("card_narrow");
-// 	document.getElementById('air_card').classList.add("card_narrow");
-// 	document.getElementById('time_card').classList.add("card_narrow");
-// 	document.getElementById('bio_card').classList.remove("card_narrow");
-//
-//
-// 	document.getElementById('air_select').classList.remove("on");
-// 	document.getElementById('temp_select').classList.remove("on");
-// 	document.getElementById('time_select').classList.remove("on");
-// 	document.getElementById('bio_select').classList.add("on");
-// }
-
-
-// function selectTime(){
-// 	localStorage.setItem('selected', 'bio');
-// 	sendColour(bio_percentage);
-//
-// 	document.getElementById('temp_card').classList.add("card_narrow");
-// 	document.getElementById('air_card').classList.add("card_narrow");
-// 	document.getElementById('time_card').classList.add("card_narrow");
-// 	document.getElementById('bio_card').classList.add("card_narrow");
-//
-//
-// 	document.getElementById('air_select').classList.remove("on");
-// 	document.getElementById('temp_select').classList.remove("on");
-// 	document.getElementById('time_select').classList.add("on");
-// 	document.getElementById('bio_select').classList.remove("on");
-// }
-
 function selectCard(id){
 
 	var card_name = document.querySelectorAll('.city');
@@ -767,7 +703,8 @@ function selectCard(id){
 	var card = id + "_card";
 
 	if (id != 'city_input') localStorage.setItem('selected', id);
-	console.log("------" +id);
+	//console.log("------" +id);
+	console.log("------" +card);
 	document.getElementById(selecta).classList.add("on");
 	document.getElementById(card).classList.remove("card_narrow");
 
@@ -883,7 +820,7 @@ function getAir(){
 function weather_response(response){
 
 	 var output = JSON.parse(response);
-	 console.log(output);
+	 //console.log(output);
 	//  document.getElementById('city_response').innerHTML = '<h2> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAAtUlEQVR4AcXOtXlCYRiG4edKhojXyQDJBEmQCbAZoIYeq2AfqHA6dAtocHeX37pzw/H3EyzwRpwmY8Y0iPGKho8+q4tfD7c6vmR181vKS94uugOn+y7PCMVZCQtWRBBqSgtqCI1P0aNj2QihobRggFBNulIVoaS0IIHQj7TgG4kyK8GvhJRTWOBAIX0XT6H0xfgqPuYTjdBVQRCtR3KneJYHDHzQ3sVbfGDon/nm94c5AvixyBoIPKEv+FCF1QAAAABJRU5ErkJggg=="" /> City: <strong>'+ output.name +'</strong></h2>';
 	//  document.getElementById('city_input_holder').style.display = 'none';
   //  console.log(output.main.temp);
