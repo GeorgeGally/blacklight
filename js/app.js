@@ -27,7 +27,7 @@ var temp_value = document.getElementById('temp_value');
 var temp_descrip = document.getElementById('temp_descrip');
 
 var city_cancel = document.getElementById('city_cancel');
-var colour_select_card = document.getElementById('colour_select_card_card');
+var colour_select_card = document.getElementById('colour_select_card');
 
 function checkLocalStorage(){
 
@@ -79,7 +79,7 @@ function setListeners(){
 	city_cancel.addEventListener("click", hideCityInput, false);
 	city_input.addEventListener('click', showCityInput, false);
 	city_input.onblur = hideCityInput;
-	colour_select_card.onclick = selectCard('colour_select_card');
+	colour_select_card.onclick = selectCard('colour_select');
 	colour_select_card.onblur =  function(){ colour_select_card.classList.remove("active")};
 	for (var i = 0; i < option_select_cards.length; i++) {
 	    option_select_cards[i].addEventListener('click', function(event) {
@@ -400,11 +400,11 @@ function toTitleCase(str) {
 
 function drawLight(_ctx1, _ctx1b, _c){
 	_ctx1.clearRect(0,0, w, h);
-	console.log(_c);
+	//console.log(_c);
 	// create radial gradient
 	var c = c2 = rgbToHsl(_c.r, _c.g, _c.b);
 	c2[2] + 0.4;
-	console.log(c);
+	//console.log(c);
 		_ctx1.beginPath();
 		_ctx1.arc(w/2, h/2, shadow_size/2, 0, Math.PI*2, true);
       var grd = _ctx1.createRadialGradient(238, 50, 10, 238, 50, 300);
@@ -412,7 +412,6 @@ function drawLight(_ctx1, _ctx1b, _c){
       grd.addColorStop(0, hsl(c[0], c[1]*100, c[2]*100));
       // dark blue
       grd.addColorStop(1, hsl(c2[0], c2[1]*100, c2[2]*100));
-
 
       _ctx1.fillStyle = grd;
       _ctx1.fill();
@@ -439,6 +438,7 @@ function showCityInput(){
 }
 
 function hidemodal(){
+	alert("hidemodal");
 	var modal = document.getElementById('modal')
 	modal.classList.add("modal_hide");
 	window.setTimeout(function(){modal.style.display = 'none'}, 2000);
