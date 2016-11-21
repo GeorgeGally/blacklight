@@ -440,10 +440,9 @@ function showCityInput(){
 }
 
 function hidemodal(){
-	alert("hidemodal");
 	var modal = document.getElementById('modal')
 	modal.classList.add("modal_hide");
-	window.setTimeout(function(){modal.style.display = 'none'}, 2000);
+	window.setTimeout(function(){ modal.style.display = 'none'}, 5000);
 }
 
 function hideCityInput(){
