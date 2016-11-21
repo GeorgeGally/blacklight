@@ -27,6 +27,7 @@ var temp_value = document.getElementById('temp_value');
 var temp_descrip = document.getElementById('temp_descrip');
 
 var city_cancel = document.getElementById('city_cancel');
+var colour_select_card = document.getElementById('colour_select_card_card');
 
 function checkLocalStorage(){
 
@@ -76,7 +77,10 @@ function setListeners(){
 
 	city_button.addEventListener('click', saveCity, false);
 	city_cancel.addEventListener("click", hideCityInput, false);
-
+	city_input.addEventListener('click', showCityInput, false);
+	city_input.onblur = hideCityInput;
+	colour_select_card.onclick = selectCard('colour_select_card');
+	colour_select_card.onblur =  function(){ colour_select_card.classList.remove("active")};
 	for (var i = 0; i < option_select_cards.length; i++) {
 	    option_select_cards[i].addEventListener('click', function(event) {
 				var id = event.srcElement.id;
@@ -89,8 +93,6 @@ function setListeners(){
 	for (var i = 0; i < city_names.length; i++) {
 	    city_names[i].addEventListener('click', showCityInput);
 	}
-
-	city_input.addEventListener('click', showCityInput, false);
 
 	for (var i = 0; i < gradient_boxes.length; i++) {
 	    gradient_boxes[i].addEventListener('click',
@@ -105,6 +107,7 @@ function setListeners(){
 
 }
 
+
 function setup(){
 
 	setupCanvas();
@@ -115,7 +118,7 @@ function setup(){
 	drawGradient(3);
 	drawGradient(4);
 
-
+	window.setTimeout(hidemodal, 1000);
 	// choose light icons
 	// ctx5.fillStyle = rgb(0);
 	// ctx5.HfillEllipse(w/2, h/2 - 50, 200,200);
@@ -149,16 +152,16 @@ function selectCard(name){
 	var selecta = name + "_select";
 	var card = name + "_card";
 
-	if (name != 'city_input') {
+	if (name != 'city_input' && name != 'colour_select_card_card') {
 		localStorage.setItem('selected', name);
 		moveMarker();
-	} else {
+	} else if (name != 'colour_select_card_card') {
 		//showCityInput();
 		//city_button.style.display = 'block';
 		city_input.focus();
 	}
 	//console.log("------" + selecta);
-	//console.log("------ " +card);
+	console.log("------ " +card);
 	document.getElementById(selecta).classList.add("on");
 	document.getElementById(card).classList.remove("card_narrow");
 
@@ -396,22 +399,49 @@ function toTitleCase(str) {
  }
 
 function drawLight(_ctx1, _ctx1b, _c){
+	_ctx1.clearRect(0,0, w, h);
+	console.log(_c);
+	// create radial gradient
+	var c = c2 = rgbToHsl(_c.r, _c.g, _c.b);
+	c2[2] + 0.4;
+	console.log(c);
+		_ctx1.beginPath();
+		_ctx1.arc(w/2, h/2, shadow_size/2, 0, Math.PI*2, true);
+      var grd = _ctx1.createRadialGradient(238, 50, 10, 238, 50, 300);
+      // light blue
+      grd.addColorStop(0, hsl(c[0], c[1]*100, c[2]*100));
+      // dark blue
+      grd.addColorStop(1, hsl(c2[0], c2[1]*100, c2[2]*100));
 
- 	_ctx1.fillStyle = rgb(_c.r, _c.g, _c.b);
- 	_ctx1.HfillEllipse(w/2, h/2, shadow_size, shadow_size);
- 	_ctx1b.fillStyle = rgb(0);
+
+      _ctx1.fillStyle = grd;
+      _ctx1.fill();
+
+
+ // 	_ctx1.fillStyle = rgb(_c.r, _c.g, _c.b);
+ // 	_ctx1.HfillEllipse(w/2, h/2, shadow_size, shadow_size);
+ // 	_ctx1b.fillStyle = rgb(0);
+	 _ctx1b.strokeStyle = rgb(0);
+	// _ctx1b.lineWidth = 10;
+ 	//_ctx1b.HfillEllipse(w/2, h/2, light_size, light_size);
+	//_ctx1b.HstrokeEllipse(w/2, h/2, light_size, light_size);
  	_ctx1b.HfillEllipse(w/2, h/2, light_size, light_size);
- //	_ctx1c.HfillEllipse(w/2, h/2, light_size, light_size);
 
  }
 
 function showCityInput(){
 	console.log("showCityInput");
 	selectCard('city_input');
-	//city_input.style.background = '#f7f7f7';
+	city_input.style.background = '#f7f7f7';
 	document.getElementById("city_input").focus();
 	city_button.style.display = 'block';
 	city_cancel.style.display = 'block';
+}
+
+function hidemodal(){
+	var modal = document.getElementById('modal')
+	modal.classList.add("modal_hide");
+	window.setTimeout(function(){modal.style.display = 'none'}, 2000);
 }
 
 function hideCityInput(){
