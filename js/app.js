@@ -108,6 +108,8 @@ function setListeners(){
 }
 
 
+var hide = window.setTimeout(hidemodal, 1000);
+
 function setup(){
 
 	setupCanvas();
@@ -118,7 +120,7 @@ function setup(){
 	drawGradient(3);
 	drawGradient(4);
 
-	window.setTimeout(hidemodal, 1000);
+
 	// choose light icons
 	// ctx5.fillStyle = rgb(0);
 	// ctx5.HfillEllipse(w/2, h/2 - 50, 200,200);
