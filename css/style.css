@@ -83,11 +83,11 @@
 		padding: 0% 10% 10% 10%;
 		/*box-shadow:0 1px 2px #aaa;*/
 		background:white;
-		/*background:whitesmoke;
+		position: relative;
 		/*border-radius:3px;*/
 		width: 100%;
 		text-align:left;
-		display:inline-block;
+		display: block;
 		/*color: #2699C9;*/
 		-webkit-transition: 0.5s ease-in;
     -moz-transition: 0.5s ease-in;
@@ -96,12 +96,17 @@
 	}
 	.card_narrow{
 		padding: 0% 10% 10% 10%;
-		background: #fafafa;
+		background: #f2f2f2;
 		width: 90%;
 		margin: 0% 4% 4% 4%;
 		text-align:left;
 		display:inline-block;
 		box-shadow: 0 1px 2px 0 #aaa inset;
+	}
+
+	#city_input_card {
+			position: fixed;
+			top: 0;
 	}
 
 	.canvas_holder {
@@ -135,6 +140,7 @@
 	 color: #39c;
 	 text-decoration: underline;
 	 font-weight: 200;
+	 text-align: center;
 	}
 
 	.light_canvas {
@@ -206,18 +212,21 @@
 		position: fixed;
 		padding-top: 50%;
     top: 0;
-		color: #000;
+		left: 0;
+		color: #555;
 		text-align: center;
 		font-size: 200%;
-		-webkit-transition: opacity 1s ease-in;
-		-moz-transition: opacity 1s ease-in;
-		-ms-transition: opacity 1s ease-in;
-		-o-transition: opacity 1s ease-in;
- 		opacity: 1;
+		font-weight: 200;
+		-webkit-transition:  1s ease-in;
+		-moz-transition:  1s ease-in;
+		-ms-transition:  1s ease-in;
+		-o-transition:  1s ease-in;
+ 		/*opacity: 1;*/
 	}
 
 .modal_hide {
-	opacity: 0;
+	/*opacity: 0;*/
+	left: -100%;
 }
 
 .q{
@@ -233,10 +242,10 @@
 			/*width:26rem;*/
 			margin:.5rem .2rem 0.2rem;
 			border:0;
-			font-size:1.1rem;
+			font-size: 39px;
 			border-radius:3px;
 			box-shadow:0 1px 2px #aaa;
-			background-color:#fff;
+			background-color: #eee;
 			padding: 12px 12px 12px 0;
 		}
 
@@ -245,6 +254,7 @@
 			height: 50px;
 			padding:.75rem 1rem;
 			min-width: 300px;
+			font-size: 20px;
 		}
 
 		input[type="button"]:active, input[type="button"]:hover{
@@ -256,7 +266,7 @@
 			background: #f7f7f7 !important;
 			text-decoration: none;
 			padding: 12px 12px 12px 18px;
-			font-size: 39px;
+
 		}
 
 		/* Removes the clear button from date inputs */

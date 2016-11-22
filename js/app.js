@@ -10,12 +10,15 @@ var time_percentage = 0;
 var bio_percentage = 0;
 var city = "";
 var gradient = 1;
-var temp = 0;
+var temp = 50;
 var air = 0;
 var conditions = "";
 var ctx1, ctx1b, ctx2, ctx2b, ctx3, ctx3b, ctx4, ctx4b;
 
-//localStorage.setItem('air', 120);
+localStorage.setItem('selected', 'temp');
+
+city_input_card = document.getElementById('city_input_card');
+//city_input_card.style.position = "fixed";
 var city_input = document.getElementById('city_input');
 var city_button = document.getElementById('city_button');
 
@@ -36,12 +39,17 @@ function checkLocalStorage(){
 		city_input.value = city;
 		addCityName(city);
 		//console.log("localStorage.city: " + city);
+		if (localStorage.selected && localStorage.selected != undefined) {
+			selectCard(localStorage.selected);
+			//console.log("localStorage.selected: " + localStorage.selected);
+		}
+
+	} else {
+		console.log('no city');
+		selectCard('city_input');
+
 	}
 
-	if (localStorage.selected && localStorage.selected != undefined) {
-		selectCard(localStorage.selected);
-		//console.log("localStorage.selected: " + localStorage.selected);
-	}
 
 	if (localStorage.temp && localStorage.temp != undefined) {
 		temp = localStorage.temp;
@@ -78,9 +86,9 @@ function setListeners(){
 	city_button.addEventListener('click', saveCity, false);
 	city_cancel.addEventListener("click", hideCityInput, false);
 	city_input.addEventListener('click', showCityInput, false);
-	city_input.onblur = hideCityInput;
-	colour_select_card.onclick = selectCard('colour_select');
-	colour_select_card.onblur =  function(){ colour_select_card.classList.remove("active")};
+	//city_input.onblur = hideCityInput;
+	//colour_select_card.onclick = selectCard('colour_select');
+	//colour_select_card.onblur =  function(){ colour_select_card.classList.remove("active")};
 	for (var i = 0; i < option_select_cards.length; i++) {
 	    option_select_cards[i].addEventListener('click', function(event) {
 				var id = event.srcElement.id;
@@ -115,11 +123,11 @@ function setup(){
 	setupCanvas();
 	setListeners();
 	checkLocalStorage();
+
 	drawGradient(1);
 	drawGradient(2);
 	drawGradient(3);
 	drawGradient(4);
-
 
 	// choose light icons
 	// ctx5.fillStyle = rgb(0);
@@ -129,18 +137,23 @@ function setup(){
 	// ctx5.eqFillTriangle(w/2 + 60, h - 45, 20);
 
 	if (city && city !=undefined) {
-		//console.log(city);
+		hideCityInput();
 		getTemp();
 		getAir();
+
 	} else {
-		selectCard("city_input");
+		showCityInput();
+		document.getElementById('temp_card').style.display = "none";
+		document.getElementById('air_card').style.display = "none";
+		document.getElementById('time_card').style.display = "none";
+		//turnOnCityInput();
 	}
 
 }
 
 function selectCard(name){
 
-	//console.log("selectCard: " + name);
+	console.log("selectCard: " + name);
 	var option_name = document.querySelectorAll('.option_select');
 	for (var i = 0; i < option_name.length; i++) {
     option_name[i].classList.remove("on");
@@ -154,19 +167,53 @@ function selectCard(name){
 	var selecta = name + "_select";
 	var card = name + "_card";
 
-	if (name != 'city_input' && name != 'colour_select_card_card') {
+	if (name != 'city_input' && name != 'colour_selectd') {
 		localStorage.setItem('selected', name);
 		moveMarker();
-	} else if (name != 'colour_select_card_card') {
+	} else if (name != 'colour_select') {
 		//showCityInput();
 		//city_button.style.display = 'block';
-		city_input.focus();
+		turnOnCityInput();
+		//showCityInput();
 	}
 	//console.log("------" + selecta);
-	console.log("------ " +card);
+	//console.log("------ " +card);
 	document.getElementById(selecta).classList.add("on");
 	document.getElementById(card).classList.remove("card_narrow");
 
+}
+
+function showCityInput(){
+	console.log("showCityInput");
+
+	selectCard('city_input');
+	turnOnCityInput();
+}
+
+function turnOnCityInput(){
+	city_input_card.style.left = "0%";
+	//city_input_card.style.opacity = 1;
+	console.log('turnOnCityInput');
+	city_input.style.background = '#f7f7f7';
+	city_input.focus();
+	city_button.style.display = 'block';
+	city_cancel.style.display = 'block';
+	colour_select_card.style.left = "0%";
+	colour_select_card.style.opacity = 0;
+}
+
+function hideCityInput(){
+
+	console.log('hideCityInput');
+	city_input_card.style.left = "-100%";
+	//city_input_card.style.opacity = 0;
+	city_input.style.background = 'none';
+	city_button.style.display = 'none';
+	//console.log("selected: " + localStorage.selected);
+	//selectCard(localStorage.selected);
+	city_cancel.style.display = 'none';
+	// colour_select_card.style.left = "100%";
+	// colour_select_card.style.opacity = 1;
 }
 
 function selectGradient(id){
@@ -176,26 +223,27 @@ function selectGradient(id){
 	for (var j = 0; j < gradient_boxes.length; j++) {
 			gradient_boxes[j].classList.remove("active");
 	}
-	var id_no = id.slice(8, id.length );
 
-	changeGradient(id_no);
+	var id_no = id.slice(8, id.length );
+	//changeGradient(id_no);
 	var marker = id +"_marker";
 
 	document.getElementById(marker).style.display = "block";
 	document.getElementById(id).classList.add("active");
 	localStorage.setItem("gradient", id_no);
-
+	resetLight(id_no);
 }
 
-function setColour() {
+function resetLight(id_no) {
 
-	//console.log('air_percentage' + air_percentage);
-	var color1 = getColour(temp_percentage);
-	var color2 = getColour(air_percentage);
-	var color3 = getColour(90);
-	// var c1 = hexToRgb(color1);
-	// var c2 = hexToRgb(color2);
-	//console.log("setColour: " + color1.r);
+	temp_percentage = calcTempPercent(temp);
+	air_percentage = calcAirPercent(air);
+	time_percentage = 90;
+	//console.log('temp_percentage: ' + temp_percentage);
+	var color1 = getColour(temp_percentage, localStorage.gradient);
+	var color2 = getColour(air_percentage, localStorage.gradient);
+	var color3 = getColour(time_percentage, localStorage.gradient);
+	var color4 = getColour(time_percentage, localStorage.gradient);
 	// drawLight(ctx1, ctx1b, ctx1c, color1);
 	// drawLight(ctx2, ctx2b, ctx2c, color2)
 	// drawLight(ctx3, ctx3b, ctx3c, color3);
@@ -203,14 +251,43 @@ function setColour() {
 	drawLight(ctx2, ctx2b, color2)
 	drawLight(ctx3, ctx3b, color3);
 
-	moveMarker();
+	 if (localStorage.selected == "temp") {
+		 moveMarker(temp_percentage);
+	 } else if (localStorage.selected == "air") {
+		 moveMarker(air_percentage);
+	 } else if (localStorage.selected == "time") {
+		 moveMarker(time_percentage);
+	 } else {
+		 moveMarker(time_percentage);
+	 }
 
 }
 
-function getColour(percentage){
-	gradient = localStorage.gradient;
-	//console.log("getColour for gradient"+ gradient);
-	//console.log("percentage: "+ percentage);
+
+function moveMarker(percentage){
+
+	var markers = document.querySelectorAll('.marker');
+	for (var i = 1; i <= markers.length; i++) {
+			var target_marker = document.getElementById('gradient' + i + '_marker');
+			if (percentage > 50) {
+				target_marker.style.left = 'calc(' + percentage + '% - 30px)';
+			} else {
+				target_marker.style.left = 'calc(' + percentage + '% + 5px)';
+			}
+			var c = getColour(percentage, i);
+
+			//console.log(c);
+			target_marker.style.background = rgb(c.r, c.g, c.b);
+			//console.log("moveMarker: " + i + " - " + percentage);
+	}
+
+}
+
+
+function getColour(percentage, gradient){
+
+	// console.log("getColour for gradient"+ gradient);
+	// console.log("percentage: "+ percentage);
 	if (gradient == 1) {
 		color1 = document.getElementById('color1a').value;
 		color2 = document.getElementById('color1b').value;
@@ -227,24 +304,17 @@ function getColour(percentage){
 
 	var c1 = hexToRgb(color1);
 	var c2 = hexToRgb(color2);
-	var c3 = calculateColour(c1, c2, percentage)
-	//console.log(c3);
+	var c3 = calculateColour(c1, c2, percentage);
+	// console.log(c1);
+	// console.log(c2);
+	// console.log(c3);
 	return c3;
-
-}
-
-function changeGradient(num) {
-
-	gradient = num;
-	localStorage.setItem("gradient", gradient);
-	//console.log("set gradient: " + gradient);
-	setColour();
 
 }
 
 function saveCity(){
 
-	city = toTitleCase(document.getElementById('city_input').value);
+	city = toTitleCase(city_input.value);
 	console.log("saveCity: " + city);
 	localStorage.setItem("city", city);
 	addCityName(city);
@@ -274,6 +344,7 @@ function weather_response(response){
 		var conditions = output.weather[0].description;
 	}
 	 setTemp(temp,conditions);
+	 city_input.style.left = "-100%";
 }
 
 function air_response(response){
@@ -296,7 +367,7 @@ function air_response(response){
 
 function setTemp(temp, conditions){
 
-	temp_percentage = Math.round(temp/34*100);
+	temp_percentage = calcTempPercent(temp);
 	//temp_percentage = 96;
 	console.log("temp: " + temp + " -  " + temp_percentage + "%");
 
@@ -304,7 +375,7 @@ function setTemp(temp, conditions){
 	temp_descrip.innerHTML = conditions;
 	localStorage.setItem("temp", temp);
 	localStorage.setItem("conditions", conditions);
-	setColour();
+	resetLight();
 }
 
 function getTemp(){
@@ -337,47 +408,16 @@ function setAir(air){
 	var rating = getRating(air);
 	document.getElementById('air_value').innerHTML = Math.floor(air);
 	document.getElementById('air_description').innerHTML = rating;
-	setColour();
+	resetLight();
 }
 
 function calcTempPercent(temp){
-	return Math.round(temp/34*100);
+	return Math.round(clamp(temp, 0, 34)/34*100);
 }
 
 function calcAirPercent(air){
-	return Math.round(air/200*100);
+	return Math.round(clamp(air, 0, 200)/200*100);
 }
-
-function moveMarker(){
-		var ss = "";
-	 if (localStorage.selected == "temp") {
-		 var pos = calcTempPercent(temp);
-		 ss = "temp";
-	 } else if (localStorage.selected == "air") {
-		 var pos = calcAirPercent(air);
-		 ss = "air";
-	 } else {
-		 var pos = 50;
-		 ss = "time";
-	 }
-
-	 console.log("moveMarker: " + ss + " - " + pos);
-	 var color1 = getColour(pos);
-	 //console.log(color1);
-		var markers = document.querySelectorAll('.marker');
-	for (var i = 0; i < markers.length; i++) {
-		var target_marker = markers[i];
-		if (pos > 50) {
-			target_marker.style.left = 'calc(' + pos + '% - 30px)';
-		} else {
-			target_marker.style.left = 'calc(' + pos + '% + 5px)';
-		}
-		target_marker.style.background = rgb(color1.r, color1.g, color1.b);
-	}
-
-
-}
-
 
 //// UTILS
 
@@ -430,28 +470,10 @@ function drawLight(_ctx1, _ctx1b, _c){
 
  }
 
-function showCityInput(){
-	console.log("showCityInput");
-	selectCard('city_input');
-	city_input.style.background = '#f7f7f7';
-	document.getElementById("city_input").focus();
-	city_button.style.display = 'block';
-	city_cancel.style.display = 'block';
-}
-
 function hidemodal(){
 	var modal = document.getElementById('modal')
 	modal.classList.add("modal_hide");
 	window.setTimeout(function(){ modal.style.display = 'none'}, 5000);
-}
-
-function hideCityInput(){
-	city_input.style.background = 'none';
-	city_button.style.display = 'none';
-	//console.log("selected: " + localStorage.selected);
-	selectCard(localStorage.selected);
-	city_cancel.style.display = 'none';
-	//console.log('blur');
 }
 
 function hideMarkers(){
@@ -466,36 +488,34 @@ function calculateColour(c1, c2, percentage) {
 	// console.log(c1);
 	// console.log(c2);
 	// console.log(percentage);
+	// console.log('-----');
 
-	//percentage = 100- percentage;
-  if (c2.r > c1.r ) {
-		var r = c1.r + Math.abs(c2.r - c1.r) * (percentage/100);
+	r = diffCalc(c1.r, c2.r, percentage)
+	//console.log("r: " + r);
+  g = diffCalc(c1.g, c2.g, percentage)
+	//console.log("g: " + g);
+	b = diffCalc(c1.b, c2.b, percentage);
+	//console.log("b: " + b);
+
+	return {r:Math.round(r), g:Math.round(g), b:Math.round(b)};
+
+}
+
+function diffCalc(c1, c2, percentage){
+	//if c1 = 255 and c2 = 0;
+	// 100% of the way from c1 to c2
+	if (c1 > c2 ) {
+		var c = c1 - (c1 - c2) * percentage/100;
   } else {
-  	var r = c2.r + Math.abs(c1.r - c2.r) * (percentage/100);
+   	var c = c1 + (c2 - c1) * percentage/100;
   }
-
-  if (c2.g > c1.g ) {
-	 var g = c1.g + Math.abs(c2.g - c1.g) * percentage/100;
-  } else {
-   var g = c2.g + Math.abs(c1.g - c2.g) * percentage/100;
-  }
-
-  if (c2.b > c1.b ) {
-	 var b = c1.b + Math.abs(c2.b - c1.b) * percentage/100;
-  } else {
-   var b = c2.b + Math.abs(c1.b - c2.b) * percentage/100;
-  }
-
-	//console.log(r);
-	 return {r:Math.round(r), g:Math.round(g), b:Math.round(b)};
+	return c;
 
 }
 
 function drawGradient(num) {
-
  	color1 = document.getElementById('color'+ num +'a').value;
  	color2 = document.getElementById('color'+ num +'b').value;
-	//console.log(color2);
  	document.getElementById('gradient' + num).style.background = 'linear-gradient(to right, ' + color1 + ', ' + color2 + ')';
 
  }
