@@ -86,6 +86,11 @@ function setListeners(){
 	city_button.addEventListener('click', saveCity, false);
 	city_cancel.addEventListener("click", hideCityInput, false);
 	city_input.addEventListener('click', showCityInput, false);
+
+	colour_select_card.addEventListener('mouseover', selectCard('colour_select'), false);
+	//colour_select_card.addEventListener('mouseout', selectCard(localStorage.selected), false);
+	colour_select_card.addEventListener('mouseout', console.log("xxxx"), false);
+	//selectCard(name)
 	//city_input.onblur = hideCityInput;
 	//colour_select_card.onclick = selectCard('colour_select');
 	//colour_select_card.onblur =  function(){ colour_select_card.classList.remove("active")};
@@ -131,7 +136,7 @@ function setup(){
 	drawGradient(10);
 	drawGradient(11);
 	drawGradient(12);
-	drawGradient(13);
+	// drawGradient(13);
 
 	// choose light icons
 	// ctx5.fillStyle = rgb(0);
@@ -595,9 +600,9 @@ function setupCanvas(){
 	// var ctx4 = addCanvas('light4', canvas_w, canvas_w);
 	// var ctx4b = addCanvas('light4b', canvas_w, canvas_w);
 	// var ctx5 = addCanvas('light5', canvas_w, canvas_w);
-	document.getElementById('light1').style.webkitFilter = "blur(12px)";
-	document.getElementById('light2').style.webkitFilter = "blur(12px)";
-	document.getElementById('light3').style.webkitFilter = "blur(12px)";
+	document.getElementById('light1').style.webkitFilter = "blur(24px)";
+	document.getElementById('light2').style.webkitFilter = "blur(24px)";
+	document.getElementById('light3').style.webkitFilter = "blur(24px)";
 	//document.getElementById('light4').style.webkitFilter = "blur(12px)";
 
 	}

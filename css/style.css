@@ -179,8 +179,12 @@
 	.gradient_box {
 		height: 72px;
 		width: 100%;
-    border: 12px solid #fff;
+    border: 12px solid #f3f3f3;
 		position: relative;
+	}
+
+	.card_narrow .gradient_box {
+    border: 12px solid #fff;
 	}
 
 	.gradient_box.small{
