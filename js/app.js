@@ -1,7 +1,7 @@
 // some globals
 var w, width, h, height;
 var canvas;
-var canvas_w = 300;
+var canvas_w = 290;
 var shadow_size = 280;
 var light_size = 240;
 var temp_percentage = 0;
@@ -107,14 +107,13 @@ function setListeners(){
 			function(event) {
 				var id = event.srcElement.id;
 				//var id = id.slice(8, id.length );
-				console.log(id);
+				//console.log(id);
 				selectGradient(id);
 	    }
 		);
 	}
 
 }
-
 
 var hide = window.setTimeout(hidemodal, 1000);
 
@@ -128,6 +127,11 @@ function setup(){
 	drawGradient(2);
 	drawGradient(3);
 	drawGradient(4);
+
+	drawGradient(10);
+	drawGradient(11);
+	drawGradient(12);
+	drawGradient(13);
 
 	// choose light icons
 	// ctx5.fillStyle = rgb(0);
@@ -217,36 +221,35 @@ function hideCityInput(){
 }
 
 function selectGradient(id){
-
+	selectCard('colour_select');
 	hideMarkers();
 
 	for (var j = 0; j < gradient_boxes.length; j++) {
 			gradient_boxes[j].classList.remove("active");
 	}
 
-	var id_no = id.slice(8, id.length );
-	//changeGradient(id_no);
+	gradient = id.slice(8, id.length );
 	var marker = id +"_marker";
 
 	document.getElementById(marker).style.display = "block";
 	document.getElementById(id).classList.add("active");
-	localStorage.setItem("gradient", id_no);
-	resetLight(id_no);
+	localStorage.setItem("gradient", gradient);
+	resetLight();
 }
 
-function resetLight(id_no) {
+function resetLight() {
 
+	console.log("resetLight: " + gradient);
 	temp_percentage = calcTempPercent(temp);
 	air_percentage = calcAirPercent(air);
 	time_percentage = 90;
-	//console.log('temp_percentage: ' + temp_percentage);
-	var color1 = getColour(temp_percentage, localStorage.gradient);
-	var color2 = getColour(air_percentage, localStorage.gradient);
-	var color3 = getColour(time_percentage, localStorage.gradient);
-	var color4 = getColour(time_percentage, localStorage.gradient);
-	// drawLight(ctx1, ctx1b, ctx1c, color1);
-	// drawLight(ctx2, ctx2b, ctx2c, color2)
-	// drawLight(ctx3, ctx3b, ctx3c, color3);
+	console.log('temp_percentage: ' + temp_percentage);
+	var color1 = getColour(temp_percentage, gradient);
+	var color2 = getColour(air_percentage, gradient);
+	var color3 = getColour(time_percentage, gradient);
+	var color4 = getColour(time_percentage, gradient);
+	// console.log(color1);
+	// console.log(color2);
 	drawLight(ctx1, ctx1b, color1);
 	drawLight(ctx2, ctx2b, color2)
 	drawLight(ctx3, ctx3b, color3);
@@ -264,29 +267,11 @@ function resetLight(id_no) {
 }
 
 
-function moveMarker(percentage){
-
-	var markers = document.querySelectorAll('.marker');
-	for (var i = 1; i <= markers.length; i++) {
-			var target_marker = document.getElementById('gradient' + i + '_marker');
-			if (percentage > 50) {
-				target_marker.style.left = 'calc(' + percentage + '% - 30px)';
-			} else {
-				target_marker.style.left = 'calc(' + percentage + '% + 5px)';
-			}
-			var c = getColour(percentage, i);
-
-			//console.log(c);
-			target_marker.style.background = rgb(c.r, c.g, c.b);
-			//console.log("moveMarker: " + i + " - " + percentage);
-	}
-
-}
 
 
 function getColour(percentage, gradient){
 
-	// console.log("getColour for gradient"+ gradient);
+	//console.log("getColour for gradient"+ gradient);
 	// console.log("percentage: "+ percentage);
 	if (gradient == 1) {
 		color1 = document.getElementById('color1a').value;
@@ -309,6 +294,25 @@ function getColour(percentage, gradient){
 	// console.log(c2);
 	// console.log(c3);
 	return c3;
+
+}
+
+function moveMarker(percentage){
+
+	var markers = document.querySelectorAll('.marker');
+	for (var i = 1; i <= markers.length; i++) {
+			var target_marker = document.getElementById('gradient' + i + '_marker');
+			if (percentage > 50) {
+				target_marker.style.left = 'calc(' + percentage + '% - 30px)';
+			} else {
+				target_marker.style.left = 'calc(' + percentage + '% + 5px)';
+			}
+
+			var c = getColour(percentage, i);
+			// //console.log(c);
+			target_marker.style.background = rgb(c.r, c.g, c.b);
+			//console.log("moveMarker: " + i + " - " + percentage);
+	}
 
 }
 
@@ -446,14 +450,14 @@ function drawLight(_ctx1, _ctx1b, _c){
 	// create radial gradient
 	var c = c2 = rgbToHsl(_c.r, _c.g, _c.b);
 	c2[2] + 0.4;
-	//console.log(c);
+	//console.log(c2);
 		_ctx1.beginPath();
 		_ctx1.arc(w/2, h/2, shadow_size/2, 0, Math.PI*2, true);
       var grd = _ctx1.createRadialGradient(238, 50, 10, 238, 50, 300);
       // light blue
-      grd.addColorStop(0, hsl(c[0], c[1]*100, c[2]*100));
+      grd.addColorStop(0, hsl(255*c[0], c[1]*100, c[2]*100));
       // dark blue
-      grd.addColorStop(1, hsl(c2[0], c2[1]*100, c2[2]*100));
+      grd.addColorStop(1, hsl(255*c2[0], c2[1]*100, c2[2]*100));
 
       _ctx1.fillStyle = grd;
       _ctx1.fill();
@@ -514,6 +518,7 @@ function diffCalc(c1, c2, percentage){
 }
 
 function drawGradient(num) {
+	console.log(num);
  	color1 = document.getElementById('color'+ num +'a').value;
  	color2 = document.getElementById('color'+ num +'b').value;
  	document.getElementById('gradient' + num).style.background = 'linear-gradient(to right, ' + color1 + ', ' + color2 + ')';
