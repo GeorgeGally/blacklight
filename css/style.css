@@ -95,13 +95,9 @@
     -o-transition: 0.5s ease-in;
     transition: 0.5s ease-in;
 	}
+
 	.card_narrow{
-		padding: 5% 10% 10% 10%;
-		background: #f2f2f2;
-		width: 90%;
-		margin: 5% 4% 4% 4%;
-		text-align:left;
-		display:inline-block;
+		background: #fcfcfc;
 		box-shadow: 0 1px 2px 0 #aaa inset;
 	}
 
@@ -133,6 +129,12 @@
 			display: none;
 	}
 
+	#colour_select_card {
+		position: fixed;
+		top: 0;
+		height: 100%;
+	}
+
  .text_input {
 	 /*border-bottom: 3px solid #39c;*/
 	 background: none;
@@ -150,24 +152,6 @@
 		left: 0;
 	}
 
-	.grey {
-		background: #f7f7f7;
-		color: #ccc;
-	}
-
-	/*.light_blue {
-		background: #C5E5F7;
-		color: #fff;
-	}
-
-	.light_blue h3{
-		color: #000;
-	}
-
-	.light_blue .temp{
-		color: #fff;
-	}*/
-
 	.white{
 		background: #fff;
 	}
@@ -179,16 +163,25 @@
 	.gradient_box {
 		height: 72px;
 		width: 100%;
-    border: 12px solid #f3f3f3;
+    border: 12px solid #fff;
 		position: relative;
+		box-shadow: 0 2px 2px #ddd;
 	}
 
 	.card_narrow .gradient_box {
     border: 12px solid #fff;
 	}
 
-	.gradient_box.small{
+	.gradient_box_small{
     height: 42px;
+		width: 100%;
+		border: 12px solid #fff;
+		position: relative;
+		box-shadow: 0 2px 2px #ddd;
+	}
+
+	.gradient_box:active, .gradient_box:focus, .gradient_box_small:active, .gradient_box_small:focus{
+    box-shadow: 0 1px 2px #ddd inset;
 	}
 
 	.gradient-holder {
@@ -208,13 +201,31 @@
     	border: 2px solid #fff;
 	}
 
+	.marker_small {
+		padding: 0;
+		width: 16px;
+		height: 16px;
+		position: absolute;
+		bottom: 1px;
+		border: 2px solid #fff;
+	}
+
+	.footer {
+		width: 100%;
+		height: 250px;;
+		background: #eee;
+		padding: 90px;
+		font-size: 80%;
+		font-weight: 200;
+		color: #555;
+	}
 	.modal{
 		z-index: 999;
 		width: 100%;
 		height: 100%;
 		background: #eee;
 		position: fixed;
-		padding-top: 50%;
+		padding-top: 300px;
     top: 0;
 		left: 0;
 		color: #555;
@@ -261,7 +272,7 @@
 			font-size: 20px;
 		}
 
-		input[type="button"]:active, input[type="button"]:hover{
+		input[type="button"]:active, input[type="button"]:hover, input[type="button"]:focus{
 			background-color:#e2674a;
 		}
 
@@ -362,7 +373,7 @@
 			background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAALVBMVEX///8EBwfBwsLw8PAzNjaCg4NTVVUjJiZDRUUUFxdiZGSho6OSk5Pg4eFydHTCjaf3AAAAZElEQVQ4je2NSw7AIAhEBamKn97/uMXEGBvozkWb9C2Zx4xzWykBhFAeYp9gkLyZE0zIMno9n4g19hmdY39scwqVkOXaxph0ZCXQcqxSpgQpONa59wkRDOL93eAXvimwlbPbwwVAegLS1HGfZAAAAABJRU5ErkJggg==') no-repeat left center;background-size: 1em; }
 
 		.temp {
-			font-size: 6rem;
+			font-size: 4rem;
 			letter-spacing: -0.05em;
 			font-weight: 100;
 			color: #ddd;

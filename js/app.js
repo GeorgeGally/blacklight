@@ -15,14 +15,17 @@ var air = 0;
 var conditions = "";
 var ctx1, ctx1b, ctx2, ctx2b, ctx3, ctx3b, ctx4, ctx4b;
 
-localStorage.setItem('selected', 'temp');
+//localStorage.setItem('selected', 'temp');
 
-city_input_card = document.getElementById('city_input_card');
+var card_names = document.querySelectorAll('.card');
+var city_input_card = document.getElementById('city_input_card');
 //city_input_card.style.position = "fixed";
 var city_input = document.getElementById('city_input');
 var city_button = document.getElementById('city_button');
 
 var gradient_boxes = document.querySelectorAll('.gradient_box');
+var gradient_boxes_small = document.querySelectorAll('.gradient_box_small');
+
 var option_select_cards = document.querySelectorAll('.option_select_card');
 var city_names = document.querySelectorAll('.city_name');
 
@@ -31,6 +34,7 @@ var temp_descrip = document.getElementById('temp_descrip');
 
 var city_cancel = document.getElementById('city_cancel');
 var colour_select_card = document.getElementById('colour_select_card');
+
 
 function checkLocalStorage(){
 
@@ -54,21 +58,21 @@ function checkLocalStorage(){
 	if (localStorage.temp && localStorage.temp != undefined) {
 		temp = localStorage.temp;
 		conditions = localStorage.conditions;
-		console.log("localStorage.temp: " + localStorage.temp);
+		//console.log("localStorage.temp: " + localStorage.temp);
 		setTemp(temp, conditions)
 	}
 
 	if (localStorage.air && localStorage.air != undefined) {
 		air = localStorage.air;
 		conditions = localStorage.conditions;
-		console.log("localStorage.air: " + localStorage.air);
+		//console.log("localStorage.air: " + localStorage.air);
 		setAir(air, conditions);
 	}
 
 	if (localStorage.gradient && localStorage.gradient != undefined) {
 		gradient = localStorage.gradient;
 		console.log("localStorage gradient: " + gradient);
-		selectGradient("gradient"+gradient);
+		selectGradient("gradient" + gradient);
 		} else {
 		selectGradient("gradient1");
 	}
@@ -87,20 +91,21 @@ function setListeners(){
 	city_cancel.addEventListener("click", hideCityInput, false);
 	city_input.addEventListener('click', showCityInput, false);
 
-	colour_select_card.addEventListener('mouseover', selectCard('colour_select'), false);
-	//colour_select_card.addEventListener('mouseout', selectCard(localStorage.selected), false);
-	colour_select_card.addEventListener('mouseout', console.log("xxxx"), false);
-	//selectCard(name)
-	//city_input.onblur = hideCityInput;
-	//colour_select_card.onclick = selectCard('colour_select');
-	//colour_select_card.onblur =  function(){ colour_select_card.classList.remove("active")};
+	for (var i = 0; i < gradient_boxes_small.length; i++) {
+	    gradient_boxes_small[i].addEventListener('click', function(event) {
+			selectCard('colour_select');
+			console.log("gradient click");
+			colour_select_card.style.left = "0%";
+	    });
+	}
+
 	for (var i = 0; i < option_select_cards.length; i++) {
-	    option_select_cards[i].addEventListener('click', function(event) {
+			option_select_cards[i].addEventListener('click', function(event) {
 				var id = event.srcElement.id;
 				var id = id.slice(0, id.length-7 );
 				//console.log(id);
-	      selectCard(id)
-	    });
+				selectCard(id)
+			});
 	}
 
 	for (var i = 0; i < city_names.length; i++) {
@@ -110,10 +115,10 @@ function setListeners(){
 	for (var i = 0; i < gradient_boxes.length; i++) {
 	    gradient_boxes[i].addEventListener('click',
 			function(event) {
+
 				var id = event.srcElement.id;
-				//var id = id.slice(8, id.length );
-				//console.log(id);
 				selectGradient(id);
+
 	    }
 		);
 	}
@@ -133,17 +138,12 @@ function setup(){
 	drawGradient(3);
 	drawGradient(4);
 
-	drawGradient(10);
-	drawGradient(11);
-	drawGradient(12);
+	// drawGradient(10);
+	// drawGradient(11);
+	// drawGradient(12);
 	// drawGradient(13);
 
-	// choose light icons
-	// ctx5.fillStyle = rgb(0);
-	// ctx5.HfillEllipse(w/2, h/2 - 50, 200,200);
-	// ctx5.HfillEllipse(w/2 - 60, h -50, 30,30);
-	// ctx5.fillRect(w/2 - 15, h - 65, 30,30);
-	// ctx5.eqFillTriangle(w/2 + 60, h - 45, 20);
+	//drawLightChoice();
 
 	if (city && city !=undefined) {
 		hideCityInput();
@@ -163,23 +163,29 @@ function setup(){
 function selectCard(name){
 
 	console.log("selectCard: " + name);
+	//console.log(gradient);
 	var option_name = document.querySelectorAll('.option_select');
 	for (var i = 0; i < option_name.length; i++) {
     option_name[i].classList.remove("on");
 	}
 
-	var card_name = document.querySelectorAll('.card');
-	for (var i = 0; i < card_name.length; i++) {
-		card_name[i].classList.add("card_narrow");
+
+	for (var i = 0; i < card_names.length; i++) {
+		card_names[i].classList.add("card_narrow");
 	}
 
 	var selecta = name + "_select";
 	var card = name + "_card";
+	document.getElementById(card).scrollIntoView({'alignToTop': true});
 
-	if (name != 'city_input' && name != 'colour_selectd') {
+	if (name == 'colour_select') {
+		console.log("colour_select_card");
+		colour_select_card.style.left = "0%";
+		//colour_select_card.style.opacity = 1;
+	} else if (name != 'city_input') {
 		localStorage.setItem('selected', name);
 		moveMarker();
-	} else if (name != 'colour_select') {
+	} else {
 		//showCityInput();
 		//city_button.style.display = 'block';
 		turnOnCityInput();
@@ -207,13 +213,15 @@ function turnOnCityInput(){
 	city_input.focus();
 	city_button.style.display = 'block';
 	city_cancel.style.display = 'block';
-	colour_select_card.style.left = "0%";
-	colour_select_card.style.opacity = 0;
+	colour_select_card.style.left = "-100%";
+
 }
+
+
 
 function hideCityInput(){
 
-	console.log('hideCityInput');
+	//console.log('hideCityInput');
 	city_input_card.style.left = "-100%";
 	//city_input_card.style.opacity = 0;
 	city_input.style.background = 'none';
@@ -221,12 +229,11 @@ function hideCityInput(){
 	//console.log("selected: " + localStorage.selected);
 	//selectCard(localStorage.selected);
 	city_cancel.style.display = 'none';
-	// colour_select_card.style.left = "100%";
-	// colour_select_card.style.opacity = 1;
+
 }
 
 function selectGradient(id){
-	selectCard('colour_select');
+	console.log("selectGradient:" + id);
 	hideMarkers();
 
 	for (var j = 0; j < gradient_boxes.length; j++) {
@@ -234,21 +241,44 @@ function selectGradient(id){
 	}
 
 	gradient = id.slice(8, id.length );
-	var marker = id +"_marker";
 
+	var marker = id +"_marker";
 	document.getElementById(marker).style.display = "block";
 	document.getElementById(id).classList.add("active");
 	localStorage.setItem("gradient", gradient);
+	//console.log("new gradient: " + gradient);
+	colour_select_card.style.left = "-100%";
+	drawSmallGradients(gradient);
+	moveSmallMarkers();
 	resetLight();
 }
 
+function drawGradient(num) {
+	console.log(num);
+ 	color1 = document.getElementById('color'+ num +'a').value;
+ 	color2 = document.getElementById('color'+ num +'b').value;
+ 	document.getElementById('gradient' + num).style.background = 'linear-gradient(to right, ' + color1 + ', ' + color2 + ')';
+
+ }
+
+
+function drawSmallGradients(num) {
+	console.log(num);
+ 	color1 = document.getElementById('color'+ num +'a').value;
+ 	color2 = document.getElementById('color'+ num +'b').value;
+	for (var i = 0; i < gradient_boxes_small.length; i++) {
+		gradient_boxes_small[i].style.background = 'linear-gradient(to right, ' + color1 + ', ' + color2 + ')';
+	}
+
+ }
+
 function resetLight() {
 
-	console.log("resetLight: " + gradient);
+	//console.log("resetLight: " + gradient);
 	temp_percentage = calcTempPercent(temp);
 	air_percentage = calcAirPercent(air);
 	time_percentage = 90;
-	console.log('temp_percentage: ' + temp_percentage);
+	//console.log('temp_percentage: ' + temp_percentage);
 	var color1 = getColour(temp_percentage, gradient);
 	var color2 = getColour(air_percentage, gradient);
 	var color3 = getColour(time_percentage, gradient);
@@ -301,6 +331,39 @@ function getColour(percentage, gradient){
 	return c3;
 
 }
+
+function moveSmallMarkers(){
+
+	var small_markers = document.querySelectorAll('.marker_small');
+
+	//document.getElementById('gradient11_marker_small');
+	for (var i = 0; i < small_markers.length; i++) {
+		var small_marker = small_markers[i];
+		//console.log(small_marker);
+		if (i == 0) {
+			var percentage = temp_percentage;
+			var c = getColour(percentage, gradient);
+		} else if (i == 1) {
+			var percentage = air_percentage;
+			var c = getColour(percentage, gradient);
+		} else {
+			var percentage = time_percentage;
+			var c = getColour(percentage, gradient);
+		}
+
+			//var target_marker = document.getElementById('gradient' + i + '_marker');
+			if (percentage > 50) {
+				small_marker.style.left = 'calc(' + percentage + '% - 30px)';
+			} else {
+				small_marker.style.left = 'calc(' + percentage + '% + 5px)';
+			}
+
+			small_marker.style.background = rgb(c.r, c.g, c.b);
+			//console.log("moveMarker: " + i + " - " + percentage);
+	}
+
+}
+
 
 function moveMarker(percentage){
 
@@ -378,7 +441,7 @@ function setTemp(temp, conditions){
 
 	temp_percentage = calcTempPercent(temp);
 	//temp_percentage = 96;
-	console.log("temp: " + temp + " -  " + temp_percentage + "%");
+	//console.log("temp: " + temp + " -  " + temp_percentage + "%");
 
 	temp_value.innerHTML = Math.floor(temp)+ '&deg;C';
 	temp_descrip.innerHTML = conditions;
@@ -411,7 +474,7 @@ function setAir(air){
 
 	air_percentage = calcAirPercent(air)
 	//air_percentage = 30;
-	console.log("air: " + air + " -  " + air_percentage + "%");
+	//console.log("air: " + air + " -  " + air_percentage + "%");
 	localStorage.setItem("air", air);
 
 	var rating = getRating(air);
@@ -429,6 +492,15 @@ function calcAirPercent(air){
 }
 
 //// UTILS
+
+function drawLightChoice(){
+		// choose light icons
+	ctx5.fillStyle = rgb(0);
+	ctx5.HfillEllipse(w/2, h/2 - 50, 200,200);
+	ctx5.HfillEllipse(w/2 - 60, h -50, 30,30);
+	ctx5.fillRect(w/2 - 15, h - 65, 30,30);
+	ctx5.eqFillTriangle(w/2 + 60, h - 45, 20);
+}
 
 function hexToRgb(hex) {
     // Expand shorthand form (e.g. '03F') to full form (e.g. '0033FF')
@@ -522,14 +594,6 @@ function diffCalc(c1, c2, percentage){
 
 }
 
-function drawGradient(num) {
-	console.log(num);
- 	color1 = document.getElementById('color'+ num +'a').value;
- 	color2 = document.getElementById('color'+ num +'b').value;
- 	document.getElementById('gradient' + num).style.background = 'linear-gradient(to right, ' + color1 + ', ' + color2 + ')';
-
- }
-
 function weather_error(response){
     console.log("weather_error");
     document.getElementById('city_response').innerHTML = 'Please enter your city.';
@@ -558,6 +622,7 @@ function loadJSON(file, callback, error_callback) {
 
   		} else if (req.readyState == 4 && req.status == "200") {
   	      // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+					city_input_card.style.left = "-100%";
   	      callback(req.responseText);
 
   	  } else {
@@ -600,9 +665,9 @@ function setupCanvas(){
 	// var ctx4 = addCanvas('light4', canvas_w, canvas_w);
 	// var ctx4b = addCanvas('light4b', canvas_w, canvas_w);
 	// var ctx5 = addCanvas('light5', canvas_w, canvas_w);
-	document.getElementById('light1').style.webkitFilter = "blur(24px)";
-	document.getElementById('light2').style.webkitFilter = "blur(24px)";
-	document.getElementById('light3').style.webkitFilter = "blur(24px)";
+	document.getElementById('light1').style.webkitFilter = "blur(14px)";
+	document.getElementById('light2').style.webkitFilter = "blur(14px)";
+	document.getElementById('light3').style.webkitFilter = "blur(14px)";
 	//document.getElementById('light4').style.webkitFilter = "blur(12px)";
 
 	}
